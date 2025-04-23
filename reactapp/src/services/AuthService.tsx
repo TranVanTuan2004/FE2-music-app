@@ -1,0 +1,33 @@
+import { Dispatch } from "@reduxjs/toolkit";
+import axiosInstance from "../configs/axios";
+import { IUser } from "../interfaces/IUser";
+
+type loginPayload = {
+    email: string,
+    password: string
+}
+const login = async (payload: loginPayload): Promise<IUser | null> => {
+    try {
+        const response = await axiosInstance.post('auth/login', {
+            'email': payload.email,
+            'password': payload.password
+        });
+        return response.data.user;
+    } catch (error) {
+        return null;
+    }
+}
+
+const fetchUser = async (): Promise<IUser | null> => {
+    try {
+        const response = await axiosInstance.get('auth/me');
+        return response.data.user;
+    } catch (error) {
+        return null;
+    }
+}
+
+
+
+
+export { login, fetchUser };
