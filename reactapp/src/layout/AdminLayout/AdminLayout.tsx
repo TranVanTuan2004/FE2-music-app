@@ -91,7 +91,7 @@ interface DemoProps {
     window?: () => Window;
 }
 
-const Layout = (props: DemoProps) => {
+const AdminLayout = (props: DemoProps) => {
     const { window } = props;
     const demoWindow = window !== undefined ? window() : undefined;
     const location = useLocation();
@@ -128,4 +128,4 @@ const Layout = (props: DemoProps) => {
 }
 
 
-export default Layout
+export default AdminLayout

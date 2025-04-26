@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -6,10 +5,9 @@ import Login from './pages/auth/Login.tsx'
 import { ToastContainer } from 'react-toastify'
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
-import Layout from './layout/AdminLayout/Layout.tsx'
 import AuthMiddleware from './middleware/AuthMiddleware.tsx'
 import NoAuthMiddleware from './middleware/NoAuthMiddleware.tsx'
-import User from './pages/admin/user/User.tsx'
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -21,6 +19,10 @@ import {
 } from '@tanstack/react-query'
 import Dashboard from './pages/admin/Dashboard.tsx'
 import adminRoute from './routes/adminRoute.tsx'
+import AdminLayout from './layout/AdminLayout/AdminLayout.tsx'
+import ClientLayout from './layout/ClientLayout/ClientLayout.tsx'
+import Home from './pages/client/home/Home.tsx'
+import Detail from './pages/client/detail/detail.tsx'
 
 const queryClient = new QueryClient()
 
@@ -34,14 +36,25 @@ const router = createBrowserRouter([
   },
   //Client
   {
-
+    path: '/',
+    element: <ClientLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: `/track/:id`,
+        element: <Detail />
+      }
+    ]
   },
 
   // Admin
   {
     path: '/admin',
     element: (<AuthMiddleware>
-      <Layout />
+      <AdminLayout />
     </AuthMiddleware>),
     children: [
       {

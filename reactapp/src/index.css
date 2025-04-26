@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -118,5 +117,18 @@
 
   body {
     @apply bg-background text-foreground;
+
+  }
+
+  .custom-nav-btn {
+    @apply absolute top-1/2 z-10 w-10 h-10 bg-white/30 rounded-full flex items-center justify-center cursor-pointer transition-transform -translate-y-1/2 duration-300;
+  }
+
+  .custom-nav-btn:hover {
+    @apply scale-110;
+  }
+
+  .custom-nav-btn .arrow {
+    @apply text-white text-lg;
   }
 }
