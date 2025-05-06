@@ -11,7 +11,24 @@ class UserService extends BaseService
         parent::__construct($userRepository);
     }
 
+    public function find($id)
+    {
+        $user = $this->repo->find($id);
+        if (!is_numeric($id)) {
+            throw new \InvalidArgumentException('ID không hợp lệ');
+        }
+        if (!$user) {
+            throw new \Exception('User không tồn tại');
+        }
+        return $user;
+    }
 
-
-
+    public function update($id, array $data)
+    {
+        $user = $this->repo->update($id, $data);
+        if (!$user) {
+            throw new \Exception('User không tồn tại');
+        }
+        return $user;
+    }
 }

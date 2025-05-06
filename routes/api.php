@@ -33,11 +33,14 @@ Route::group([
 
 ], function ($router) {
     // User
-    Route::get('users', [UserController::class, 'index']);
-
     Route::middleware('role:admin')->group(function () {
+        Route::get('users', [UserController::class, 'index']);
         Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
+        Route::get('users/{id}', [UserController::class, 'getUserById']);
+        Route::put('users/{id}', [UserController::class, 'updateUser']);
+        Route::delete('users/{id}', [UserController::class, 'deleteUser']);
     });
+
 });
 
 Route::group([

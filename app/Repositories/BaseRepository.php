@@ -41,8 +41,7 @@ class BaseRepository
     public function update($id, array $data)
     {
         $user = $this->find($id);
-        $user->update($data);
-        return $user;
+        return $user->update($data);
     }
 
     public function delete($id)

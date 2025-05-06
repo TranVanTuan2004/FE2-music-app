@@ -16,14 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         // truncate() -> xóa toàn bộ data để khi fake lại bắt đầu từ 1
-        User::truncate();
-        User::factory()->create([
-            'name' => 'Trần Văn Tuấn',
-            'email' => 'test@gmail.com',
-            'password' => Hash::make('password'),
-            'address' => 'Số nhà 23/17 Hẻm 17 Đường Dương Văn Cam, Linh Tây, Thủ Đức',
-            'phone' => '0978476115'
-        ]);
 
         $this->call([
             UserSeeder::class,
