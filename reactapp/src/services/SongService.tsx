@@ -11,4 +11,9 @@ const getSongById = async (id: number) => {
     return response.data;
 }
 
-export { getAllSongs, getSongById }
+const getPlayList = async (id: number) => {
+    const response = await axiosInstance.get(`songs/${id}/playlist`)
+    return response.data;
+}
+
+export { getAllSongs, getSongById, getPlayList }

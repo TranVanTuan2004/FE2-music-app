@@ -17,6 +17,7 @@ import SongItem from './SongItem';
 import { toast } from 'react-toastify';
 import { Route, useNavigate } from 'react-router-dom';
 import { usePlayerControl } from '../../hook/usePlayerControl';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 export type SongListProps = {
   genre?: string;
@@ -26,13 +27,11 @@ export type SongListProps = {
   limit: number;
 };
 const SongList = () => {
-  const { data, isLoading, error } = useSong({ limit: 10 });
+  const { data, isLoading, error } = useSong({ limit: 20 });
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
   const navigate = useNavigate();
-
-
 
   const { songRedux, isPlaying, handlePlayMusic } = usePlayerControl();  // Sử dụng hook xử lý play/pause
 
@@ -47,7 +46,11 @@ const SongList = () => {
     setIsEnd(swiper.isEnd);
   }
 
-
+  if (isLoading) {
+    return <SkeletonTheme baseColor="#202020" highlightColor="#444444">
+      <Skeleton count={5} />
+    </SkeletonTheme>
+  }
 
   return (
     <>

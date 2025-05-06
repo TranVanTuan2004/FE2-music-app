@@ -1,8 +1,6 @@
 <?php
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Request;
 
 class BaseRepository
 {
@@ -24,5 +22,33 @@ class BaseRepository
         $user->save();
         return $user;
     }
+
+    public function getAll()
+    {
+        return $this->model->all();
+    }
+
+    public function find($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function create(array $data)
+    {
+        return $this->model->create($data);
+    }
+
+    public function update($id, array $data)
+    {
+        $user = $this->find($id);
+        $user->update($data);
+        return $user;
+    }
+
+    public function delete($id)
+    {
+        return $this->model->destroy($id);
+    }
+
 
 }

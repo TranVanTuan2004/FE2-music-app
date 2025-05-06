@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // use là sử dụng cho toàn global
         $middleware->use([
-            // 'cors' => \Fruitcake\Cors\HandleCors::class,
+            \App\Http\Middleware\CORPHeaderMiddleware::class,
         ]);
 
         // khai báo như này để sử dụng ở route cụ thể

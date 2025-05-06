@@ -3,17 +3,18 @@ import { useParams } from "react-router-dom";
 import { getSongById } from "../../../services/SongService";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../../../config";
-import { pause, play, Song } from "../../../redux/slice/playerSlice";
+import { pause, play, Track } from "../../../redux/slice/playerSlice";
 import { MoreHorizontal, Pause, Plus } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { usePlayerControl } from "../../../hook/usePlayerControl";
-
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 const Detail = () => {
     const { id } = useParams();
-    const [song, setSong] = useState<Song | null>(null);
+    const [song, setSong] = useState<Track | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -24,23 +25,19 @@ const Detail = () => {
     useEffect(() => {
         const getSong = async () => {
             try {
+                setIsLoading(true);
                 const song = await getSongById(Number(id));
-                setTimeout(() => {
-                    setIsLoading(true);
-                }, 1000)
                 setSong(song);
             } catch (error) {
                 toast.error('Failed to fetch song:' + error);
             } finally {
-                setIsLoading(false);
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 300)
             }
         }
         getSong();
     }, [id])
-    console.log(song)
-
-
-
 
     const songs = [
         {
@@ -81,7 +78,11 @@ const Detail = () => {
     ];
     return (
         <>
-            {!isLoading ? "..Loading" : <div className="min-h-[100vh] p-8 bg-[linear-gradient(to_bottom,_#6d8e95,_#1a1a1a_27%,_#121212_100%)]">
+            {isLoading ? <SkeletonTheme baseColor="#202020" highlightColor="#444444">
+                <p>
+                    <Skeleton count={5} />
+                </p>
+            </SkeletonTheme> : <div className="min-h-[100vh] p-8 bg-[linear-gradient(to_bottom,_#6d8e95,_#1a1a1a_27%,_#121212_100%)]">
                 <div className="max-w-5xl text-white flex gap-x-8 ">
                     <div className="w-1/5">
                         <img

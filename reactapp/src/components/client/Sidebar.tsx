@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-[18%] h-full p-2 flex-col gap-2 text-white hidden lg:flex">
-      <div className="bg-[#121212] h-[85%] rounded">
+    <div className="w-[20%] h-full p-2 flex-col gap-2 text-white hidden lg:flex">
+      <div className="bg-[#121212] h-[85%] rounded-lg">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img className="w-8" alt="stack_icon" />

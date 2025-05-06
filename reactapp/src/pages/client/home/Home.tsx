@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../../../components/client/Navbar'
 import { useQuery } from '@tanstack/react-query'
 import { getAllSongs } from '../../../services/SongService'
@@ -6,9 +6,8 @@ import SongItem from '../../../components/client/SongItem'
 import SongList from '../../../components/client/SongList'
 
 const Home = () => {
-
     return (
-        <div className="min-w-full m-2 px-6 pt-4 rounded whitespace-nowrap bg-[#121212] text-white lg:w-[75%] lg:ml-0">
+        <div className="min-w-full px-6 pt-4 rounded-lg whitespace-nowrap bg-[#121212] text-white lg:w-[75%] lg:ml-0">
             {/* <Navbar /> */}
             <div className="mb-4">
                 <h1 className="my-5 font-bold text-2xl">Featured Charts</h1>
