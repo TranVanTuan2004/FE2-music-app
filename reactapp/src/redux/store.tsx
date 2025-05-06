@@ -1,11 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
 import toastReducer from './slice/toastSlice'
 import authReducer from './slice/authSlice'
+import playerReducer from './slice/playerSlice'
+import modelReducer from './slice/modelSlice'
+
+
 
 export const store = configureStore({
     reducer: {
         toast: toastReducer,
-        auth: authReducer
+        auth: authReducer,
+        player: playerReducer,
+        model: modelReducer
+
+
     },
 })
 

@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -118,5 +117,75 @@
 
   body {
     @apply bg-background text-foreground;
+
   }
+
+  .custom-nav-btn {
+    @apply absolute top-1/2 z-10 w-10 h-10 bg-white/30 rounded-full flex items-center justify-center cursor-pointer transition-transform -translate-y-1/2 duration-300;
+  }
+
+  .custom-nav-btn:hover {
+    @apply scale-110;
+  }
+
+  .custom-nav-btn .arrow {
+    @apply text-white text-lg;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+
+  .range-slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  /* Mặc định: Đầu kéo không có hình tròn */
+  .range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0px;
+    /* Ẩn đầu kéo */
+    height: 0px;
+    /* Ẩn đầu kéo */
+    background: transparent;
+    /* Không có màu nền */
+    border-radius: 50%;
+    /* Cũng để hình tròn, nhưng ẩn */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Thêm hiệu ứng khi hover */
+  }
+
+  .range-slider::-moz-range-thumb {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Khi hover vào thanh trượt, đổi đầu kéo thành hình tròn */
+  .range-slider:hover::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    background: #027402;
+  }
+
+
+  .range-container:hover .range-slider::-webkit-slider-thumb {}
+
+
+
+
+
+
 }

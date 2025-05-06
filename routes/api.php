@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AudioController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\SongController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +34,21 @@ Route::group([
 ], function ($router) {
     // User
     Route::get('users', [UserController::class, 'index']);
-    Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
+
+    Route::middleware('role:admin')->group(function () {
+        Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
+    });
+});
+
+Route::group([
+    'prefix' => 'v1'
+], function ($router) {
+    // Songs
+    Route::get('songs', [SongController::class, 'index']);
+    Route::get('songs/{id}', [SongController::class, 'getSongById']);
+    Route::get('songs/{id}/playlist', [SongController::class, 'getPlayList']);
+    Route::get('audio/{filename}', [AudioController::class, 'streamAudio']);
+
 });
 
 Route::post('/v1/auth/login', [AuthController::class, 'login']);
