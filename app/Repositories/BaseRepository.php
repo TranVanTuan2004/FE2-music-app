@@ -49,5 +49,4 @@ class BaseRepository
         return $this->model->destroy($id);
     }
 
-
 }

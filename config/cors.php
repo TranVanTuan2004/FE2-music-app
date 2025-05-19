@@ -1,12 +1,11 @@
 <?php
 
-
 return [
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'storage/*'], // đảm bảo đường dẫn audio nằm trong đây
+    'paths' => ['song_audio/*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['http://localhost:5173'],
+    'allowed_origins' => ['http://localhost:5173'], // hoặc ['*'] để test nhanh
     'allowed_headers' => ['*'],
-    'exposed_headers' => ['Content-Length', 'X-Knowledge'],
+    'exposed_headers' => ['Content-Range', 'Accept-Ranges', 'Content-Length'],
     'max_age' => 0,
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 ];

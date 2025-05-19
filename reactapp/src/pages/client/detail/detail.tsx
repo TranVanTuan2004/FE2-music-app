@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSongById } from "../../../services/SongService";
+import { getSongById, getSongsByArtist } from "../../../services/SongService";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../../../config";
 import { pause, play, Track } from "../../../redux/slice/playerSlice";
@@ -12,10 +12,14 @@ import { RootState } from "../../../redux/store";
 import { usePlayerControl } from "../../../hook/usePlayerControl";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import axiosInstance from "../../../configs/axios";
 const Detail = () => {
     const { id } = useParams();
-    const [song, setSong] = useState<Track | null>(null);
+    const [song, setSong] = useState<any | Track | null>(null);
+    const [songsArt, setSongsArt] = useState<any | null>([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const dispatch = useDispatch();
 
 
     // xử lý khi onClick
@@ -39,43 +43,20 @@ const Detail = () => {
         getSong();
     }, [id])
 
-    const songs = [
-        {
-            title: "Chìm Sâu",
-            artist: "RPT MCK, Trung Trần",
-            plays: "58.952.500",
-            duration: "2:36",
-            image: "https://via.placeholder.com/40", // Bạn thay link ảnh phù hợp
-        },
-        {
-            title: "Đã Lỡ Yêu Em Nhiều",
-            artist: "JustaTee",
-            plays: "19.531.607",
-            duration: "4:21",
-            image: "https://via.placeholder.com/40",
-        },
-        {
-            title: "một đời",
-            artist: "14 Casper, Bon Nghiêm, buitruonglinh",
-            plays: "20.892.488",
-            duration: "5:28",
-            image: "https://via.placeholder.com/40",
-        },
-        {
-            title: "Love is",
-            artist: "Dangrangto",
-            plays: "14.920.895",
-            duration: "4:26",
-            image: "https://via.placeholder.com/40",
-        },
-        {
-            title: "Track 06",
-            artist: "Tyronee, VSTRA, Obito",
-            plays: "8.945.245",
-            duration: "2:45",
-            image: "https://via.placeholder.com/40",
-        },
-    ];
+    useEffect(() => {
+        const fetchSongsByArtist = async () => {
+            try {
+                const artistId = song?.artists[0].id;
+                const data = await getSongsByArtist(artistId, 10);
+                setSongsArt(data);
+                console.log(data);
+            } catch (error) {
+                toast.error('Failed to fetch song:' + error);
+            }
+        }
+        fetchSongsByArtist()
+    }, [song])
+
     return (
         <>
             {isLoading ? <SkeletonTheme baseColor="#202020" highlightColor="#444444">
@@ -123,7 +104,7 @@ const Detail = () => {
                         <MoreHorizontal className="text-gray-400 hover:text-white w-5 h-5" />
                     </button>
                 </div>
-                <div className="mt-10">
+                {/* <div className="mt-10">
                     <h2 className="text-2xl font-bold ">Đề xuất</h2>
                     <p className="text-gray-400 mt-2 mb-8">Dựa trên bài hát này</p>
                     <div className="space-y-6">
@@ -143,26 +124,33 @@ const Detail = () => {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
 
                 <div className="mt-10">
                     <h2 className="text-gray-400">Các bản nhạc thịnh hành của</h2>
-                    <p className="text-2xl font-bold mt-2 mb-8">Vũ Cát Tường</p>
-                    <div className="space-y-6">
-                        {songs.map((song, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
-                                    <img src={song.image} alt={song.title} className="w-12 h-12 rounded-md" />
+                    <p className="text-2xl font-bold mt-2 mb-8">{song?.artists[0].name}</p>
+                    <div>
+                        {songsArt?.map((song: any, index: number) => (
+                            <div key={index}>
+                                <div className={`group flex items-center gap-3 p-2 transition-all relative ${songRedux.id === song.id ? 'text-green-500' : 'text-white'}
+                                                        hover:bg-neutral-800`}>
+                                    <button onClick={() => handlePlayMusic(Number(song?.id))} className="absolute left-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 z-20">
+                                        {songRedux?.id === song?.id && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-white text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-white text-[18px]' />}
+                                    </button>
+                                    <div className="relative">
+                                        <img
+                                            src={`${BASE_URL}/storage/${song.image}`}
+                                            alt={song.title}
+                                            className="w-12 h-12 object-cover rounded-md transition-all duration-500"
+                                        />
+                                        <div className="absolute inset-0 rounded-lg group-hover:bg-black/60"></div>
+                                    </div>
                                     <div>
-                                        <div className="font-semibold">{song.title}</div>
-                                        <div className="text-gray-400 text-sm">{song.artist}</div>
+                                        <div className="text-[15px] font-semibold">{song.title}</div>
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <div className="text-gray-400 text-sm">{song.plays}</div>
-                                    <div className="text-gray-400 text-sm">{song.duration}</div>
-                                </div>
                             </div>
+
                         ))}
                     </div>
                 </div>

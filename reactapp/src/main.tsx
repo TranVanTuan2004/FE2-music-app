@@ -22,7 +22,9 @@ import adminRoute from './routes/adminRoute.tsx'
 import AdminLayout from './layout/AdminLayout/AdminLayout.tsx'
 import ClientLayout from './layout/ClientLayout/ClientLayout.tsx'
 import Home from './pages/client/home/Home.tsx'
-import Detail from './pages/client/detail/detail.tsx'
+import Detail from './pages/client/detail/Detail.tsx'
+import Favorite from './pages/client/favorite/Favorite.tsx'
+import RoleProtectedRoute from './middleware/RoleProtectedRoute.tsx'
 
 const queryClient = new QueryClient()
 
@@ -46,7 +48,11 @@ const router = createBrowserRouter([
       {
         path: `/track/:id`,
         element: <Detail />
-      }
+      },
+      {
+        path: '/favorite',
+        element: <Favorite />
+      },
     ]
   },
 
@@ -54,7 +60,9 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: (<AuthMiddleware>
-      <AdminLayout />
+      <RoleProtectedRoute allowedRoles={['admin']}>
+        <AdminLayout />
+      </RoleProtectedRoute>
     </AuthMiddleware>),
     children: [
       {
@@ -77,5 +85,4 @@ createRoot(document.getElementById('root')!).render(
       <ToastContainer />
     </QueryClientProvider>
   </Provider>
-
 )

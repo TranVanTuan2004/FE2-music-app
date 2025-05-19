@@ -22,5 +22,14 @@ class SongService extends BaseService
 
         return $this->repo->getPlayList($id);
     }
+    public function getSongById($id)
+    {
+        return $this->repo->getSongById($id);
+    }
+
+    public function getSongsByArtist($artistId, $limit)
+    {
+        return $this->repo->getSongsByArtist($artistId, $limit);
+    }
 
 }

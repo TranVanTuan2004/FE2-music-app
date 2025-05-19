@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Trần Văn Tuấn',
             'email' => 'tuantran280504@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123456'),
             'address' => 'Số nhà 23/17 Hẻm 17 Đường Dương Văn Cam, Linh Tây, Thủ Đức',
             'phone' => '0978476115',
             'role' => 'admin'
@@ -26,9 +26,27 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test',
             'email' => 'test@gmail.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('123456'),
             'address' => 'Số nhà 23/17 Hẻm 17 Đường Dương Văn Cam, Linh Tây, Thủ Đức',
             'phone' => '0385623512',
+            'role' => 'user'
+        ]);
+
+        User::factory()->create([
+            'name' => 'Vũ Cát Tường',
+            'email' => 'vucattuong@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '09123123123',
+            'role' => 'user'
+        ]);
+
+        User::factory()->create([
+            'name' => 'Noo Phước Thịnh',
+            'email' => 'noophuocthinh@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
             'role' => 'user'
         ]);
 

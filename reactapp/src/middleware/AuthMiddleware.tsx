@@ -6,7 +6,7 @@ import { setAuthLogin } from "../redux/slice/authSlice";
 import { fetchUser } from "../services/AuthService";
 
 type ProtectedRouteProps = PropsWithChildren
-const AuthMiddleware = ({ children }: ProtectedRouteProps) => {
+const AuthMiddleware = ({ children }: PropsWithChildren) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
@@ -16,19 +16,22 @@ const AuthMiddleware = ({ children }: ProtectedRouteProps) => {
             const userData = await fetchUser();
             if (userData) {
                 dispatch(setAuthLogin(userData));
+                // Check role sau khi fetch
+                if (userData.role !== 'admin') navigate('/');
             } else {
                 navigate('/login');
             }
+        } else {
+            // Nếu đã login rồi nhưng không phải admin
+            if (user.role !== 'admin') navigate('/');
         }
     }
+
     useEffect(() => {
         fetchUserData();
-    }, [isAuthenticated, user, navigate])
+    }, [isAuthenticated, user]);
 
-    // nếu nó đúng thì return về children nếu k đúng thì sẽ k return về layout
-    // dùng lệnh này để tránh render nội dung trang
-    return isAuthenticated && user ? children : null;
-    // return children;
-}
+    return isAuthenticated && user?.role === 'admin' ? children : null;
+};
 
-export default AuthMiddleware
+export default AuthMiddleware;

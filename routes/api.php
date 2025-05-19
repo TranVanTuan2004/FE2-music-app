@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AudioController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\FavoriteController;
 use App\Http\Controllers\Api\V1\SongController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-
+// Client
 Route::group([
 
     'middleware' => 'jwt',
@@ -27,6 +28,35 @@ Route::group([
 
 });
 
+
+Route::group([
+    'prefix' => 'v1'
+], function ($router) {
+    // Songs
+    Route::get('songs', [SongController::class, 'index']);
+    Route::get('songs/{id}', [SongController::class, 'getSongById']);
+    Route::get('songs/{id}/playlist', [SongController::class, 'getPlayList']);
+    Route::get('songs/getSongsByArtist/{id}', [SongController::class, 'getSongsByArtist']);
+    Route::get('song_audio/{filename}', [SongController::class, 'upstream']);
+});
+
+
+Route::post('/v1/auth/login', [AuthController::class, 'login']);
+Route::post('/v1/auth/refresh', [AuthController::class, 'refresh'])->middleware('jwt');
+
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => 'jwt',
+
+], function ($router) {
+    // Favorite
+    Route::get('favorite/getFavorites', [FavoriteController::class, 'getFavorites']);
+    Route::post('favorite/toggle', [FavoriteController::class, 'toggleFavorite']);
+});
+
+
+// admin
 Route::group([
     'middleware' => 'jwt',
     'prefix' => 'v1'
@@ -40,20 +70,4 @@ Route::group([
         Route::put('users/{id}', [UserController::class, 'updateUser']);
         Route::delete('users/{id}', [UserController::class, 'deleteUser']);
     });
-
 });
-
-Route::group([
-    'prefix' => 'v1'
-], function ($router) {
-    // Songs
-    Route::get('songs', [SongController::class, 'index']);
-    Route::get('songs/{id}', [SongController::class, 'getSongById']);
-    Route::get('songs/{id}/playlist', [SongController::class, 'getPlayList']);
-    Route::get('audio/{filename}', [AudioController::class, 'streamAudio']);
-
-});
-
-Route::post('/v1/auth/login', [AuthController::class, 'login']);
-Route::post('/v1/auth/refresh', [AuthController::class, 'refresh'])->middleware('jwt');
-

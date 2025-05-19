@@ -43,6 +43,21 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function createUser(Request $request)
+    {
+        $user = $request->only([
+            'name',
+            'phone',
+            'email',
+            'address',
+            'birthday',
+            'image',
+            'description',
+            'password',
+            'role'
+        ]);
+    }
+
     public function getUserById(Request $request)
     {
         try {

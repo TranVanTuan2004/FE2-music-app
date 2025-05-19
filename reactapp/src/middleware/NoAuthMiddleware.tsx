@@ -14,8 +14,10 @@ const NoAuthMiddleware = ({ children }: ProtectedRouteProps) => {
 
     const checkAuthenticate = async () => {
         const userData = await fetchUser();
-        if (userData !== null) {
+        if (userData?.role === "admin") {
             navigate('/admin/dashboard');
+        } else if (userData?.role === "user") {
+            navigate('/');
         } else {
             setCheckedAuth(true);
         }
