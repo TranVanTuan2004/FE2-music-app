@@ -1,3 +1,4 @@
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import {
     Home,
     Bell,
@@ -5,8 +6,13 @@ import {
     Search,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import UserMenu from "./UserMenu";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 export default function Header() {
+    const userStr = localStorage.getItem("user");
+    const user = userStr ? JSON.parse(userStr) : null;
     return (
         <header className="w-full h-[10%] bg-black text-white px-10 py-2 grid grid-cols-3">
             <Link to={'/'} className="flex items-center gap-6">
@@ -16,7 +22,6 @@ export default function Header() {
                     className="w-10 h-10 rounded-full object-cover"
                 />
             </Link>
-
             <div className="flex gap-3 items-center justify-center">
                 <button className="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700">
                     <Home size={20} />
@@ -54,9 +59,7 @@ export default function Header() {
                 <button className="hover:text-white">
                     <Bell size={20} />
                 </button>
-                <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-sm font-bold">
-                    T
-                </div>
+                <UserMenu user={user} />
             </div>
         </header>
     );

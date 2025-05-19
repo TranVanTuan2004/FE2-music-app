@@ -25,16 +25,22 @@ import Home from './pages/client/home/Home.tsx'
 import Detail from './pages/client/detail/Detail.tsx'
 import Favorite from './pages/client/favorite/Favorite.tsx'
 import RoleProtectedRoute from './middleware/RoleProtectedRoute.tsx'
+import Profile from './pages/client/profile/Profile.tsx'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
+
   // Auth
   {
-    path: "/login",
+    path: "/auth/login",
     element: <NoAuthMiddleware>
       <Login />
     </NoAuthMiddleware>
+  },
+  {
+    path: "/auth/logout",
+    element: <Login />
   },
   //Client
   {
@@ -52,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: '/favorite',
         element: <Favorite />
+      },
+      {
+        path: '/profile',
+        element: <Profile />
       },
     ]
   },
