@@ -14,6 +14,12 @@ class BaseService
         return $users;
     }
 
+    public function update($id, array $data)
+    {
+        $data = $this->repo->update($id, $data);
+        return $data;
+    }
+
     public function updateSatatus($id, $publish)
     {
         $users = $this->repo->updateStatus($id, $publish);
@@ -28,5 +34,10 @@ class BaseService
     public function find($id)
     {
         return $this->repo->find($id);
+    }
+
+    public function delete($id)
+    {
+        return $this->repo->delete($id);
     }
 }

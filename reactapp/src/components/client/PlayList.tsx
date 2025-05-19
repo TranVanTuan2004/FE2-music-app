@@ -14,7 +14,7 @@ const Playlist = () => {
     const isPlayList = useSelector((state: RootState) => state.model.isClose)
     const dispatch = useDispatch();
 
-    const { playList, songRedux, isLoading, currentIndex } = usePlayerControl();
+    const { playList, songRedux, isLoading, currentIndex, isPlaying } = usePlayerControl();
     return (
         <div className={`bg-[#121212] text-white m-2 ml-0 rounded-lg overflow-y-scroll no-scrollbar transition-all duration-500 ${isPlayList ? 'w-[60px]' : 'w-[380px]'}`}>
             <div className="sticky top-0 z-10 h-[60px] bg-[#121212] p-4 border-b border-b-amber-50 flex items-center justify-between">
@@ -39,8 +39,8 @@ const Playlist = () => {
                             )}
                             {currentIndex <= index ? <div className={`group flex items-center gap-3 p-4 transition-all relative ${songRedux.id === song.id ? 'text-green-500' : 'text-white'}
                             hover:bg-neutral-800`}>
-                                <button onClick={() => dispatch(playTrackAt(index))} className="absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 z-20">
-                                    <FontAwesomeIcon icon={faPlay} className='text-white text-[20px]' />
+                                <button onClick={() => dispatch(playTrackAt({ index, isPlaying: !isPlaying }))} className="absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 z-20">
+                                    {songRedux.id === song.id && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-white text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-white text-[18px]' />}
                                 </button>
                                 <div className="relative">
                                     <img

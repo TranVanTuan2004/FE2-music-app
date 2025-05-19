@@ -10,14 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('songs', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('genre')->nullable();
-            $table->string('duration')->nullable();
-            $table->string('release_date')->nullable();
-            $table->string('path')->nullable();
-            $table->string('image')->nullable();
+            $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists('genres');
     }
 };

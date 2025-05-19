@@ -18,8 +18,8 @@ class SongSeeder extends Seeder
         $list = [
             [
                 "title" => "Mơ",
-                "artist" => "Vũ Cát Tường",
-                "genre" => "ballad",
+                // "artist" => "Vũ Cát Tường",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/mo.mp3",
@@ -27,8 +27,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Seven",
-                "artist" => "Jungkook",
-                "genre" => "pop",
+                // "artist" => "Jungkook",
+                "genre" => 1,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/seven.mp3",
@@ -36,8 +36,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Giờ Thì",
-                "artist" => "Bùi Trường Linh",
-                "genre" => "ballad",
+                // "artist" => "Bùi Trường Linh",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/giothi.mp3",
@@ -45,8 +45,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Giấc Mơ Khác",
-                "artist" => "Chillies",
-                "genre" => "ballad",
+                // "artist" => "Chillies",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/giacmokhac.mp3",
@@ -54,8 +54,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Trở Thành Quá Khứ",
-                "artist" => "Trí",
-                "genre" => "ballad",
+                // "artist" => "Trí",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/trothanhquakhu.mp3",
@@ -63,8 +63,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Cause I Love You",
-                "artist" => "Noo Phước Thịnh",
-                "genre" => "pop",
+                // "artist" => "Noo Phước Thịnh",
+                "genre" => 1,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/causeiloveyou.mp3",
@@ -72,8 +72,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Say Yes",
-                "artist" => "Ogenus, PiaLinh",
-                "genre" => "pop",
+                // "artist" => "Ogenus, PiaLinh",
+                "genre" => 1,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/sayyes.mp3",
@@ -81,8 +81,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Chẳng Giống Giáng Sinh",
-                "artist" => "Lu, Willistic, Datfitzx",
-                "genre" => "ballad",
+                // "artist" => "Lu, Willistic, Datfitzx",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/changgiongiangsinh.mp3",
@@ -90,8 +90,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Ngõ Chạm",
-                "artist" => "BigDaddy, Emily",
-                "genre" => "ballad",
+                // "artist" => "BigDaddy, Emily",
+                "genre" => 2,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/ngocham.mp3",
@@ -100,8 +100,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Mùa Yêu Dầu",
-                "artist" => "Đinh Mạnh Linh",
-                "genre" => "r&b",
+                // "artist" => "Đinh Mạnh Linh",
+                "genre" => 4,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/muayeudau.mp3",
@@ -110,8 +110,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Sau Những Lần Đau - Remake",
-                "artist" => "Dũng, Sixkie Dawgz, Hà Anh",
-                "genre" => "r&b",
+                // "artist" => "Dũng, Sixkie Dawgz, Hà Anh",
+                "genre" => 4,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/saunhunglandau.mp3",
@@ -120,8 +120,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Chắc Anh Đang",
-                "artist" => "Tiên Tiên, and TRANG",
-                "genre" => "pop",
+                // "artist" => "Tiên Tiên, and TRANG",
+                "genre" => 1,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/chacanhdang.mp3",
@@ -130,8 +130,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "NGỰA Ô",
-                "artist" => "Dangrangto, TeuYungBoy, DONAL",
-                "genre" => "rap",
+                // "artist" => "Dangrangto, TeuYungBoy, DONAL",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/nguao.mp3",
@@ -140,8 +140,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Buồn Hay Vui",
-                "artist" => "VSOUL, RPT MCK, Obito, Boyzed, Ronboogz",
-                "genre" => "rap",
+                // "artist" => "VSOUL, RPT MCK, Obito, Boyzed, Ronboogz",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/buonhayvui.mp3",
@@ -150,8 +150,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "NGÁO NGƠ",
-                "artist" => "HIEUTHUHAI, ERIK, Anh Tú Atus, JSOL, and Orange",
-                "genre" => "rap",
+                // "artist" => "HIEUTHUHAI, ERIK, Anh Tú Atus, JSOL, and Orange",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/ngaongo.mp3",
@@ -160,8 +160,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Cho Mình Em",
-                "artist" => "Binz, Den",
-                "genre" => "rap",
+                // "artist" => "Binz, Den",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/chominhem.mp3",
@@ -170,8 +170,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Yêu Sắc Yếu",
-                "artist" => "Osad",
-                "genre" => "rap",
+                // "artist" => "Osad",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/yeusacyeu.mp3",
@@ -180,8 +180,8 @@ class SongSeeder extends Seeder
 
             [
                 "title" => "Mộng Yu",
-                "artist" => "AMEE, RPT MCK",
-                "genre" => "rap",
+                // "artist" => "AMEE, RPT MCK",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/mongyu.mp3",
@@ -189,8 +189,8 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Yêu Một Người Có Lẽ",
-                "artist" => "Lou Hoàng, Miu Lê",
-                "genre" => "rap",
+                // "artist" => "Lou Hoàng, Miu Lê",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/yeumotnguoicole.mp3",
@@ -198,20 +198,19 @@ class SongSeeder extends Seeder
             ],
             [
                 "title" => "Không Thể Say",
-                "artist" => "HIEUTHUHAI",
-                "genre" => "rap",
+                // "artist" => "HIEUTHUHAI",
+                "genre" => 3,
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),
                 "path" => "song_audio/khongthesay.mp3",
                 "image" => "song_image/khongthesay.jpg"
             ],
-
         ];
         Song::truncate();
         for ($i = 0; $i < count($list); $i++) {
-            SOng::factory()->create([
+            Song::factory()->create([
                 "title" => $list[$i]["title"],
-                "artist" => $list[$i]["artist"],
+                // "artist" => $list[$i]["artist"],
                 "genre" => $list[$i]["genre"],
                 "duration" => fake()->numberBetween(200, 500),
                 "release_date" => fake()->time(),

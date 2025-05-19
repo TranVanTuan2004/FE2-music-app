@@ -185,7 +185,7 @@ const Player = () => {
             <SkipBack onClick={handlePrevTrack} className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
             <audio
               ref={audioRef}
-              src={`${BASE_URL}/storage/${songRedux?.path}`}
+              src={`${BASE_URL}/api/v1/${songRedux?.path}`}
               onEnded={handleEnded}
               preload="metadata"
             />

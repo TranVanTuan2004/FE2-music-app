@@ -15,7 +15,7 @@ class SongRepository extends BaseRepository
     public function getSongs(array $params)
     {
         // Lý do dùng query() ở đây: Bạn có thể build nhiều điều kiện khác nhau cho Song mà không thay đổi cách truy vấn mặc định của model. Dễ dàng mở rộng nếu cần.
-        $query = $this->model->query();
+        $query = $this->model->query()->with(['artists:id,name']);
 
         if (!empty($params['genre'])) {
             $query->where('genre', $params['genre']);
@@ -33,11 +33,6 @@ class SongRepository extends BaseRepository
             $query->where('recommended', true);
         }
 
-        // trong trường hợp k có params return all
-        if (is_array($params) && count($params) === 0) {
-            return $this->getAll();
-        }
-
         $limit = $params['limit'] ?? 20;
         return $query->limit($limit)->get();
     }
@@ -49,5 +44,22 @@ class SongRepository extends BaseRepository
         $randomPlayList = $this->model->where('id', '!=', $id)->inRandomOrder()->limit(25)->get();
         $playList = $randomPlayList->prepend($song);
         return $playList;
+    }
+    public function getSongById($id)
+    {
+        return $this->model->with('artists:id,name')->findOrFail($id);
+    }
+
+    public function getSongsByArtist($artistId, $limit = null)
+    {
+        $query = $this->model->join('artist_songs', 'songs.id', '=', 'artist_songs.song_id')
+            ->where('artist_songs.user_id', $artistId)
+            ->with('artists:id,name')
+            ->select('songs.*');
+
+        if ($limit) {
+            return $query->limit($limit)->get();
+        }
+        return $query->get();
     }
 }

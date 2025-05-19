@@ -31,10 +31,16 @@ const Login = () => {
         const auth = await login(payload);
         if (auth) {
             dispatch(setAuthLogin(auth));
-            setTimeout(() => {
-                navigate('/admin/dashboard');
-                toast.success('Welcome ' + payload.email);
-            }, 1000)
+            if (auth.role === "admin") {
+                setTimeout(() => {
+                    navigate('/admin/dashboard');
+                }, 1000)
+            } else {
+                setTimeout(() => {
+                    navigate('/');
+                }, 1000)
+            }
+            toast.success('Welcome ' + payload.email);
         } else {
             setTimeout(() => {
                 navigate('/login');

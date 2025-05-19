@@ -5,4 +5,5 @@ export interface IUser {
     phone: string | null,
     address: string | null,
     image: string | null,
+    role: string
 }

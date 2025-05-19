@@ -18,7 +18,6 @@ class SongFactory extends Factory
     {
         return [
             'title' => fake()->name(),
-            'artist' => fake()->name(),
             'genre' => fake()->name(),
             'duration' => fake()->numberBetween(200, 500),
             'release_date' => fake()->time(),

@@ -75,11 +75,16 @@ const playerSlice = createSlice({
         },
 
         playTrackAt(state, action) {
-            const index = action.payload;
+            const index = action.payload.index;
             if (index >= 0 && index < state.playlist.length) {
+                if (state.currentIndex !== index) {
+                    state.isPlaying = true;
+                } else {
+                    state.isPlaying = action.payload.isPlaying;
+                }
                 state.currentIndex = index;
                 state.currentTrack = state.playlist[index];
-                state.isPlaying = true;
+
                 setTrackLocal(state);
             }
         },

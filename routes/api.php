@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\AudioController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\FavoriteController;
 use App\Http\Controllers\Api\V1\SongController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-
+// Client
 Route::group([
 
     'middleware' => 'jwt',
@@ -27,18 +28,6 @@ Route::group([
 
 });
 
-Route::group([
-    'middleware' => 'jwt',
-    'prefix' => 'v1'
-
-], function ($router) {
-    // User
-    Route::get('users', [UserController::class, 'index']);
-
-    Route::middleware('role:admin')->group(function () {
-        Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
-    });
-});
 
 Route::group([
     'prefix' => 'v1'
@@ -47,10 +36,38 @@ Route::group([
     Route::get('songs', [SongController::class, 'index']);
     Route::get('songs/{id}', [SongController::class, 'getSongById']);
     Route::get('songs/{id}/playlist', [SongController::class, 'getPlayList']);
-    Route::get('audio/{filename}', [AudioController::class, 'streamAudio']);
-
+    Route::get('songs/getSongsByArtist/{id}', [SongController::class, 'getSongsByArtist']);
+    Route::get('song_audio/{filename}', [SongController::class, 'upstream']);
 });
+
 
 Route::post('/v1/auth/login', [AuthController::class, 'login']);
 Route::post('/v1/auth/refresh', [AuthController::class, 'refresh'])->middleware('jwt');
 
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => 'jwt',
+
+], function ($router) {
+    // Favorite
+    Route::get('favorite/getFavorites', [FavoriteController::class, 'getFavorites']);
+    Route::post('favorite/toggle', [FavoriteController::class, 'toggleFavorite']);
+});
+
+
+// admin
+Route::group([
+    'middleware' => 'jwt',
+    'prefix' => 'v1'
+
+], function ($router) {
+    // User
+    Route::middleware('role:admin')->group(function () {
+        Route::get('users', [UserController::class, 'index']);
+        Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
+        Route::get('users/{id}', [UserController::class, 'getUserById']);
+        Route::put('users/{id}', [UserController::class, 'updateUser']);
+        Route::delete('users/{id}', [UserController::class, 'deleteUser']);
+    });
+});
