@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ArtistController;
+use App\Http\Controllers\Api\V1\ArtistFavoriteController;
 use App\Http\Controllers\Api\V1\AudioController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\FavoriteController;
@@ -54,6 +56,18 @@ Route::group([
     Route::get('favorite/getFavorites', [FavoriteController::class, 'getFavorites']);
     Route::post('favorite/toggle', [FavoriteController::class, 'toggleFavorite']);
 });
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => 'jwt',
+
+], function ($router) {
+    // Favorite artist
+    Route::post('artists/favorite', [ArtistFavoriteController::class, 'toggleFavorite']);
+    Route::get('artists/suggested', [ArtistController::class, 'suggested']);
+});
+
+
 
 
 // admin

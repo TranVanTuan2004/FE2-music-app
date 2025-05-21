@@ -10,7 +10,6 @@ const Sidebar = () => {
     { name: "Quang Hùng MasterD", type: "Nghệ sĩ", image: "/quanghung.jpg" },
     { name: "Dương Domic", type: "Nghệ sĩ", image: "/duongdomic.jpg" },
     { name: 'ANH TRAI "SAY HI"', type: "Nghệ sĩ", image: "/sayhi.jpg" },
-    { name: "My Playlist #1", subtitle: "Danh sách phát · Tuấn Trần", icon: <Music /> }
   ];
 
 

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MoreHorizontal, Play, Plus, TimerIcon } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { getFavorites } from "../../../services/FavoriteService";
 
 const songs = [
     {
@@ -49,7 +50,16 @@ const songs = [
     },
 ];
 
-export default function Favorite() {
+const Favorite = () => {
+    const [favorites, setFavorites] = useState([]);
+    useEffect(() => {
+        const fetchFavorites = async () => {
+            const data = await getFavorites();
+            setFavorites(data.favorites);
+        }
+        fetchFavorites();
+    }, []);
+    console.log(favorites)
     return (
         <div className=" min-h-screen text-white pb-16">
             {/* Header */}
@@ -80,12 +90,25 @@ export default function Favorite() {
                     {songs.map((song, index) => (
                         <div
                             key={index}
-                            className="grid grid-cols-12 gap-4 text-sm py-3 hover:bg-neutral-800 transition px-5 rounded-[6px]"
+                            className="grid grid-cols-12 gap-4 text-sm py-2 hover:bg-neutral-800 transition px-5 rounded-[6px]"
                         >
                             <div className="col-span-1 text-gray-400">{index + 1}</div>
-                            <div className="col-span-4">
-                                <div className="text-white font-medium leading-tight">{song.title}</div>
-                                <div className="text-xs text-gray-400">{song.artist}</div>
+                            <div className={`col-span-4 group flex items-center gap-3 transition-all relative hover:bg-neutral-800`}>
+                                <button className="absolute left-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 z-20">
+                                    {/* {songRedux?.id === song?.id && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-white text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-white text-[18px]' />} */}
+                                </button>
+                                <div className="relative">
+                                    <img
+                                        src={``}
+                                        alt={song.title}
+                                        className="w-12 h-12 object-cover rounded-md transition-all duration-500"
+                                    />
+                                    <div className="absolute inset-0 rounded-lg group-hover:bg-black/60"></div>
+                                </div>
+                                <div>
+                                    <div className="text-[14px] font-semibold">{song.title}</div>
+                                    <div className="text-[14px] font-semibold">{song.artist}</div>
+                                </div>
                             </div>
                             <div className="col-span-3 text-white">{song.album}</div>
                             <div className="col-span-3 text-white">{song.addedDate}</div>
@@ -97,3 +120,5 @@ export default function Favorite() {
         </div>
     );
 }
+
+export default Favorite
