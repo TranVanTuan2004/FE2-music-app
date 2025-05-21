@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getAllSongs } from '../../../services/SongService'
 import SongItem from '../../../components/client/SongItem'
 import SongList from '../../../components/client/SongList'
+import ArtistList from '../../../components/client/ArtistList'
 
 const Home = () => {
     return (
@@ -19,6 +20,7 @@ const Home = () => {
             <div className="mb-4">
                 <h1 className="my-5 font-bold text-2xl">Được đề xuất hôm nay</h1>
                 <SongList />
+                <ArtistList />
             </div>
         </div>
     )

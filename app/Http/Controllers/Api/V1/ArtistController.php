@@ -16,11 +16,10 @@ class ArtistController extends Controller
     public function suggested()
     {
         $artists = User::query()->where('role', '=', 'artist')
-            ->select('id', 'name', 'avatar')
+            ->select('id', 'name', 'image')
             ->inRandomOrder()
             ->take(12)
             ->get();
-
         return response()->json($artists);
     }
 }

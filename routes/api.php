@@ -64,6 +64,12 @@ Route::group([
 ], function ($router) {
     // Favorite artist
     Route::post('artists/favorite', [ArtistFavoriteController::class, 'toggleFavorite']);
+});
+
+Route::group([
+    'prefix' => 'v1',
+], function ($router) {
+    // Favorite artist
     Route::get('artists/suggested', [ArtistController::class, 'suggested']);
 });
 
