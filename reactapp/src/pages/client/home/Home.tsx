@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import Navbar from '../../../components/client/Navbar'
-import { useQuery } from '@tanstack/react-query'
-import { getAllSongs } from '../../../services/SongService'
-import SongItem from '../../../components/client/SongItem'
 import SongList from '../../../components/client/SongList'
 import ArtistList from '../../../components/client/ArtistList'
+import Footer from '../../../components/client/Footer'
+
 
 const Home = () => {
     return (
@@ -25,7 +23,6 @@ const Home = () => {
                 <h1 className="my-5 font-bold text-2xl">Nghệ sĩ phổ biến</h1>
                 <ArtistList />
             </div>
-
         </div>
     )
 }

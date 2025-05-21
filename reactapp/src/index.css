@@ -184,7 +184,9 @@
   .range-container:hover .range-slider::-webkit-slider-thumb {}
 
 
-
+  .image-auto {
+    image-rendering: auto;
+  }
 
 
 
