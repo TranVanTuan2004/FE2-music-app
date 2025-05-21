@@ -13,7 +13,7 @@ const ClientLayout = () => {
     return (
         <div className="h-screen overflow-hidden bg-black relative">
             <Header />
-            <div className="h-[78%] flex">
+            <div className="h-[80%] flex">
                 <Sidebar />
                 <div className="w-[77%] overflow-y-scroll no-scrollbar overflow-x-clip m-2 rounded-lg bg-[#121212] text-white lg:ml-0">
                     <Outlet />

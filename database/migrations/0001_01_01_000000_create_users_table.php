@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->dateTime('birthday')->nullable();
             $table->string('image')->nullable();
             $table->text('description')->nullable();
-            $table->string('role')->nullable();
+            $table->string('role')->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

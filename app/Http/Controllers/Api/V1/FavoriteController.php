@@ -38,15 +38,11 @@ class FavoriteController extends Controller
 
             $favorite = $user->favoriteSongs()->where('song_id', $song_id)->first();
             if ($favorite) {
-                $favorite->delete();
-                return response()->json(['message' => 'Removed from favorites']);
+                $user->favoriteSongs()->detach($song_id);
+                return response()->json(['message' => 'Xóa yêu thích thành công', 'status' => 'remove']);
             } else {
-                Favorite::create([
-                    'user_id' => $user->id,
-                    'song_id' => $song_id,
-                    'isFavorite' => true
-                ]);
-                return response()->json(['message' => 'Added to favorites']);
+                $user->favoriteSongs()->attach($song_id, ['isFavorite' => true]);
+                return response()->json(['message' => 'Thêm vào yêu thích thành công', 'status' => 'add']);
             }
 
         } catch (\Exception $e) {

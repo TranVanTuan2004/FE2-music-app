@@ -94,6 +94,16 @@ class User extends Authenticatable implements JWTSubject
             ->withTimestamps();
     }
 
+    public function favoriteArtists()
+    {
+        return $this->belongsToMany(User::class, 'artist_user', 'user_id', 'artist_id')->withTimestamps();
+    }
+
+    public function favoredByUsers()
+    {
+        return $this->belongsToMany(User::class, 'artist_user', 'artist_id', 'user_id')->withTimestamps();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

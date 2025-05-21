@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Quận 6 HCM city',
             'phone' => '09123123123',
-            'role' => 'user'
+            'role' => 'artist'
         ]);
 
         User::factory()->create([
@@ -47,9 +47,18 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Quận 6 HCM city',
             'phone' => '12312312312',
-            'role' => 'user'
+            'role' => 'artist'
         ]);
 
-        User::factory(100)->create();
+        User::factory()->create([
+            'name' => 'Hòa minzy',
+            'email' => 'hoaminzy@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'role' => 'artist'
+        ]);
+
+        User::factory(20)->create();
     }
 }
