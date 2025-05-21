@@ -71,6 +71,7 @@ Route::group([
 ], function ($router) {
     // Favorite artist
     Route::get('artists/suggested', [ArtistController::class, 'suggested']);
+    Route::get('artists/{id}', [ArtistController::class, 'getArtistInfo']);
 });
 
 

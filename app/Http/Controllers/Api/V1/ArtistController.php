@@ -17,9 +17,20 @@ class ArtistController extends Controller
     {
         $artists = User::query()->where('role', '=', 'artist')
             ->select('id', 'name', 'image')
-            ->inRandomOrder()
             ->take(12)
             ->get();
         return response()->json($artists);
+    }
+
+    public function getArtistInfo()
+    {
+        $artist = User::with([
+            'user',
+            function ($query) {
+                $query->orderBy('created_at', 'desc')->take(10)->get();
+            }
+        ]);
+
+        return response()->json($artist);
     }
 }

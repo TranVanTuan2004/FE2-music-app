@@ -22,11 +22,18 @@ import adminRoute from './routes/adminRoute.tsx'
 import AdminLayout from './layout/AdminLayout/AdminLayout.tsx'
 import ClientLayout from './layout/ClientLayout/ClientLayout.tsx'
 import Home from './pages/client/home/Home.tsx'
-import Detail from './pages/client/detail/Detail.tsx'
+import Detail from './pages/client/detail/detail.tsx'
 import Favorite from './pages/client/favorite/Favorite.tsx'
 import RoleProtectedRoute from './middleware/RoleProtectedRoute.tsx'
+import ArtistDetail from './pages/client/artist/ArtistDetail.tsx'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // Ngăn gọi lại khi chuyển tab
+    },
+  },
+})
 
 const router = createBrowserRouter([
   // Auth
@@ -52,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/favorite',
         element: <Favorite />
+      },
+      {
+        path: '/artist/:id',
+        element: <ArtistDetail />
       },
     ]
   },

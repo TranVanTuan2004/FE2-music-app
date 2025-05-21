@@ -20,8 +20,12 @@ const Home = () => {
             <div className="mb-4">
                 <h1 className="my-5 font-bold text-2xl">Được đề xuất hôm nay</h1>
                 <SongList />
+            </div>
+            <div className="mb-4">
+                <h1 className="my-5 font-bold text-2xl">Nghệ sĩ phổ biến</h1>
                 <ArtistList />
             </div>
+
         </div>
     )
 }
