@@ -3,7 +3,7 @@ import { Button } from "../../../components/ui/button";
 import { CheckCircle2, CheckIcon, MoreHorizontalIcon, Play } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getArtistInfo } from "../../../services/ArtistService";
 import { BASE_URL } from "../../../../config";
 import { useEffect, useState } from "react";
@@ -30,16 +30,17 @@ const ArtistDetail = () => {
   const dispatch = useDispatch();
   const { songRedux, isPlaying, } = usePlayerControl();
   const [isFollow, setIsFollow] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const random = gradients[Math.floor(Math.random() * gradients.length)];
     setGradient(random);
-  }, [])
+  }, [id])
 
-  const { data, isFetching } = useQuery({ queryKey: ['todos'], queryFn: () => getArtistInfo(Number(id)) })
+  const { data, isFetching } = useQuery({ queryKey: ['artistInfo', id], queryFn: () => getArtistInfo(Number(id)), enabled: !!id, })
 
   const handlePlayMain = () => {
-    const isCurrentTrackInPlaylist = data.songs?.some((song: any) => song?.id === songRedux.id);
+    const isCurrentTrackInPlaylist = data?.songs.some((song: any) => song?.id === songRedux.id);
 
     if (!isCurrentTrackInPlaylist) {
       dispatch(setPlayList(data?.songs));
@@ -57,9 +58,8 @@ const ArtistDetail = () => {
 
   const toggleFollow = async () => {
     const data = await toggleFollowArtist(Number(id));
-    if (data) {
-      setIsFollow(!isFollow);
-    }
+    queryClient.invalidateQueries({ queryKey: ['favorites'] });
+    setIsFollow(data?.isFollow);
   }
   useEffect(() => {
     const fetchFollow = async () => {
@@ -70,11 +70,8 @@ const ArtistDetail = () => {
         console.error('Không lấy được trạng thái follow', error);
       }
     };
-
     fetchFollow();
   }, [id]);
-
-
 
   if (isFetching) {
     return <SkeletonTheme baseColor="#202020" highlightColor="#444444">
@@ -107,7 +104,7 @@ const ArtistDetail = () => {
       <div className={`p-8 w-full bg-gradient-to-b ${gradient[2]} to-35% to-[#121212]`}>
         <div className="flex items-center gap-4">
           <button onClick={handlePlayMain} className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 hover:scale-110 transition-all duration-100">
-            {(data.songs?.some((item: any) => item.id === songRedux.id) ?? false) && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
+            {(data?.songs.some((item: any) => item.id === songRedux.id) ?? false) && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
 
           </button>
           {isFollow ? <Button onClick={toggleFollow} className="border border-white text-white font-semibold rounded-full px-4 py-1.5 text-sm hover:bg-white/10 hover:scale-105 transition-all">
@@ -124,7 +121,7 @@ const ArtistDetail = () => {
         </div>
 
         <h2 className="mt-8 text-2xl font-bold mb-6">Phổ biến</h2>
-        {data.songs?.slice(0, 10).map((song: any, index: number) => (
+        {data?.songs.slice(0, 10).map((song: any, index: number) => (
           <div
             key={index}
             className={`flex items-center gap-4 text-sm py-2 hover:bg-neutral-800 transition px-5 rounded-[6px] ${songRedux.id === song.id ? 'text-green-500' : 'text-white'}

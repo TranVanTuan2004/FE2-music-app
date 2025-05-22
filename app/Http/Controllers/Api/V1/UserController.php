@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Song;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use App\Services\User\UserService;
@@ -159,6 +160,13 @@ class UserController extends Controller
         }
     }
 
+    //favorite artist
+    public function getAllArtistFavorite()
+    {
+        $user = Auth::user();
+        $favoriteAristList = $user->favoriteArtists()->wherePivot('is_follow', true)->orderBy('artist_user.updated_at', 'desc')->get();
+        return response()->json($favoriteAristList);
+    }
 
     public function checkFavorite($artistId)
     {
@@ -170,4 +178,68 @@ class UserController extends Controller
 
         return response()->json(['isFollow' => $isFollow]);
     }
+
+
+    //favorite song
+    public function toggleFavoriteSong($songId)
+    {
+        try {
+            $user = Auth::user();
+            $song = Song::findOrFail($songId);
+            $relation = $user->favoriteSongs()->where('song_id', $songId)->first();
+            if ($relation) {
+                $currentFavorite = $relation->pivot->isFavorite;
+                $user->favoriteSongs()->updateExistingPivot($songId, ['isFavorite' => !$currentFavorite]);
+
+                return response()->json([
+                    'message' => $currentFavorite ? 'Đã bỏ yêu thích' : 'Đã yêu thích bài hát',
+                    'isFavorite' => !$currentFavorite,
+                ]);
+            } else {
+                $user->favoriteSongs()->attach([
+                    $songId => ['isFavorite' => true]
+                ]);
+
+                return response()->json([
+                    'message' => 'Đã thêm vào yêu thích',
+                    'isFavorite' => true,
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function checkFavoriteSong($songId)
+    {
+        $user = Auth::user();
+        $isFavoriteSong = $user->favoriteSongs()
+            ->where('song_id', $songId)
+            ->wherePivot('isFavorite', true)
+            ->exists();
+
+        return response()->json(['isFavorite' => $isFavoriteSong]);
+    }
+
+    public function getAllSongFavorite()
+    {
+        try {
+            $user = Auth::user();
+            $favorites = $user->favoriteSongs()->wherePivot('isFavorite', true)->orderBy('favorites.updated_at', 'desc')->with('artists')->get();
+            return response()->json([
+                'favorites' => $favorites
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }

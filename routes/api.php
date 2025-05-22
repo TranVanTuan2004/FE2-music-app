@@ -31,6 +31,8 @@ Route::group([
 });
 
 
+
+
 Route::group([
     'prefix' => 'v1'
 ], function ($router) {
@@ -52,19 +54,18 @@ Route::group([
     'middleware' => 'jwt',
 
 ], function ($router) {
-    // Favorite
-    Route::get('favorite/getFavorites', [FavoriteController::class, 'getFavorites']);
-    Route::post('favorite/toggle', [FavoriteController::class, 'toggleFavorite']);
-});
-
-Route::group([
-    'prefix' => 'v1',
-    'middleware' => 'jwt',
-
-], function ($router) {
     // Favorite artist
-    Route::post('favorite/{artistId}/artist', [UserController::class, 'toggleFavoriteArtist']);
+    Route::get('favorite/artists', [UserController::class, 'getAllArtistFavorite']);
+    Route::post('favorite/{artistId}/ar tist', [UserController::class, 'toggleFavoriteArtist']);
     Route::get('favorite/{artistId}/artist', [UserController::class, 'checkFavorite']);
+
+
+
+    // Favorite songs
+
+    Route::get('favorite/songs', [UserController::class, 'getAllSongFavorite']);
+    Route::get('favorite/{songId}/song', [UserController::class, 'checkFavoriteSong']);
+    Route::post('favorite/{songId}/song', [UserController::class, 'toggleFavoriteSong']);
 });
 
 Route::group([

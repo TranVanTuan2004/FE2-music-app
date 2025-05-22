@@ -8,19 +8,16 @@ import { CheckIcon, MoreHorizontal, Pause, Plus } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import { usePlayerControl } from "../../../hook/usePlayerControl";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import axiosInstance from "../../../configs/axios";
-import { addFavorite } from "../../../services/FavoriteService";
-import { localUser } from "../../../utils/localUser";
+import { getStatusFavoiteSong, toggleFavoriteSong } from "../../../services/UserService";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 const Detail = () => {
     const { id } = useParams();
     const [song, setSong] = useState<any | Track | null>(null);
     const [songsArt, setSongsArt] = useState<any | null>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [favorite, setFavorite] = useState(localStorage.getItem(`favorite_${id}`) === 'true');
+    const [favorite, setFavorite] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -55,22 +52,26 @@ const Detail = () => {
                 toast.error('Failed to fetch song:' + error);
             }
         }
-        fetchSongsByArtist()
+        fetchSongsByArtist();
+
     }, [song])
 
-    const handleAddFavorite = async (songId: number) => {
-        try {
-            const data = await addFavorite(songId);
-            console.log(data)
-            if (data?.status == 'add') {
-                setFavorite(true);
-                localStorage.setItem(`favorite_${songId}`, 'true');
-                toast.success('Thêm vào danh sách yêu thích thành công');
-            } else if (data?.status == 'remove') {
-                localStorage.setItem(`favorite_${songId}`, 'false');
-                setFavorite(false);
-                toast.info('Xóa yêu thích thành công');
+    useEffect(() => {
+        const fetchStatusFavoiteSong = async () => {
+            try {
+                const data = await getStatusFavoiteSong(Number(id));
+                setFavorite(data?.isFavorite)
+            } catch (error) {
+                toast.error('Failed to fetch song:' + error);
             }
+        }
+        fetchStatusFavoiteSong();
+    }, [id])
+
+    const handleToggleFavoriteSong = async (songId: number) => {
+        try {
+            const data = await toggleFavoriteSong(songId);
+            setFavorite(data?.isFavorite);
         } catch (error) {
             toast.error('Failed to add favorute:' + error);
         }
@@ -104,7 +105,7 @@ const Detail = () => {
                     <button onClick={() => handlePlayMusic(Number(song?.id))} className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 hover:scale-110 transition-all duration-100">
                         {songRedux?.id === song?.id && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
                     </button>
-                    <button onClick={() => handleAddFavorite(song?.id)} className={`flex items-center justify-center w-7 h-7 rounded-full border border-gray-400 hover:border-white hover:scale-110 transition-all duration-100 ${favorite ? 'bg-green-500 text-black' : 'bg-none'}`}>
+                    <button onClick={() => handleToggleFavoriteSong(song?.id)} className={`flex items-center justify-center w-7 h-7 rounded-full border border-gray-400 hover:border-white hover:scale-110 transition-all duration-100 ${favorite ? 'bg-green-500 text-black' : 'bg-none'}`}>
                         {favorite ? <CheckIcon className="w-4 h-4 rounded-full" /> : <Plus className="text-gray-400 hover:text-white w-5 h-5" />}
                     </button>
                     <button className="flex items-center justify-center w-10 h-10 hover:scale-110 transition-all duration-100">

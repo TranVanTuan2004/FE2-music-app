@@ -90,7 +90,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function favoriteSongs(): BelongsToMany
     {
-        return $this->belongsToMany(Song::class, 'favorites')
+        return $this->belongsToMany(Song::class, 'favorites')->withPivot('isFavorite')
             ->withTimestamps();
     }
 
