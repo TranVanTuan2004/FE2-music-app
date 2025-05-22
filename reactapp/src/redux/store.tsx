@@ -3,6 +3,7 @@ import toastReducer from './slice/toastSlice'
 import authReducer from './slice/authSlice'
 import playerReducer from './slice/playerSlice'
 import modelReducer from './slice/modelSlice'
+import artistReducer from './slice/artistSlice'
 
 
 
@@ -11,8 +12,8 @@ export const store = configureStore({
         toast: toastReducer,
         auth: authReducer,
         player: playerReducer,
-        model: modelReducer
-
+        model: modelReducer,
+        artist: artistReducer
 
     },
 })

@@ -27,4 +27,8 @@ class ArtistSong extends Model
 {
     /** @use HasFactory<\Database\Factories\ArtisanSongFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'is_follow',
+    ];
 }

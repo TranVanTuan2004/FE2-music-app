@@ -10,25 +10,26 @@ import { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { usePlayerControl } from "../../../hook/usePlayerControl";
 import { pause, play, playTrackAt, setPlayList, setTrack } from "../../../redux/slice/playerSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFollowStatus, toggleFollowArtist } from "../../../services/UserService";
 
 const gradients = [
-  ['from-[#44A5B5FF]', 'to-[#003947FF]', '#01252e'],
-  ['from-[#F27229FF]', 'to-[#650500FF]', '#4d0600'],
-  ['from-[#535353FF]', 'to-[#353535FF]', '#252525'],
-  ['from-[#929AA1FF]', 'to-[#30363CFF]', '#23282c'],
-  ['from-[#A86058FF]', 'to-[#5E1D19FF]', '#421411'],
-  ['from-[#F27229FF]', 'to-[#650500FF]', '#4d0600'],
-  ['from-[#506828FF]', 'to-[#263B00FF]', '#1b2900'],
-  ['from-[#082838FF]', 'to-[#082838FF]', '#061f2c'],
+  ['from-[#44A5B5FF]', 'to-[#003947FF]', 'from-[#01252e]'],
+  ['from-[#F27229FF]', 'to-[#650500FF]', 'from-[#4d0600]'],
+  ['from-[#535353FF]', 'to-[#353535FF]', 'from-[#252525]'],
+  ['from-[#929AA1FF]', 'to-[#30363CFF]', 'from-[#23282c]'],
+  ['from-[#A86058FF]', 'to-[#5E1D19FF]', 'from-[#421411]'],
+  ['from-[#F27229FF]', 'to-[#650500FF]', 'from-[#4d0600]'],
+  ['from-[#506828FF]', 'to-[#263B00FF]', 'from-[#1b2900]'],
+  ['from-[#082838FF]', 'to-[#082838FF]', 'from-[#061f2c]'],
 ];
 
 const ArtistDetail = () => {
   const { id } = useParams();
   const [gradient, setGradient] = useState(['from-[#44A5B5FF]', 'to-[#003947FF]', '#01252e']);
-
-  const { songRedux, playList, isPlaying, handlePlayMusic } = usePlayerControl();
   const dispatch = useDispatch();
+  const { songRedux, isPlaying, } = usePlayerControl();
+  const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
     const random = gradients[Math.floor(Math.random() * gradients.length)];
@@ -36,7 +37,6 @@ const ArtistDetail = () => {
   }, [])
 
   const { data, isFetching } = useQuery({ queryKey: ['todos'], queryFn: () => getArtistInfo(Number(id)) })
-  console.log(data);
 
   const handlePlayMain = () => {
     const isCurrentTrackInPlaylist = data.songs?.some((song: any) => song?.id === songRedux.id);
@@ -55,6 +55,26 @@ const ArtistDetail = () => {
   };
 
 
+  const toggleFollow = async () => {
+    const data = await toggleFollowArtist(Number(id));
+    if (data) {
+      setIsFollow(!isFollow);
+    }
+  }
+  useEffect(() => {
+    const fetchFollow = async () => {
+      try {
+        const data = await fetchFollowStatus(Number(id));
+        setIsFollow(data?.isFollow);
+      } catch (error) {
+        console.error('Không lấy được trạng thái follow', error);
+      }
+    };
+
+    fetchFollow();
+  }, [id]);
+
+
 
   if (isFetching) {
     return <SkeletonTheme baseColor="#202020" highlightColor="#444444">
@@ -65,7 +85,7 @@ const ArtistDetail = () => {
   }
 
   return (
-    <div className="w-full bg-gradient-to-b from-[#121212] to-black text-white font-sans">
+    <div className="w-full text-white font-sans">
       {/* Header Section */}
       <div
         className={`w-full h-[320px] p-8 bg-center flex items-center gap-8 bg-gradient-to-b ${gradient[0]} ${gradient[1]}`}
@@ -84,15 +104,18 @@ const ArtistDetail = () => {
 
 
       {/* Popular Section */}
-      <div className={`p-8 bg-gradient-to-b from-[${gradient[2]}] to-35% to-[#121212]`}>
+      <div className={`p-8 w-full bg-gradient-to-b ${gradient[2]} to-35% to-[#121212]`}>
         <div className="flex items-center gap-4">
           <button onClick={handlePlayMain} className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 hover:scale-110 transition-all duration-100">
             {(data.songs?.some((item: any) => item.id === songRedux.id) ?? false) && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
 
           </button>
-          <Button className="border border-white text-white font-semibold rounded-full px-4 py-1.5 text-sm hover:bg-white/10 hover:scale-105 transition-all">
+          {isFollow ? <Button onClick={toggleFollow} className="border border-white text-white font-semibold rounded-full px-4 py-1.5 text-sm hover:bg-white/10 hover:scale-105 transition-all">
+            Đang theo dõi
+          </Button> : <Button onClick={toggleFollow} className="border border-white text-white font-semibold rounded-full px-4 py-1.5 text-sm hover:bg-white/10 hover:scale-105 transition-all">
             Theo dõi
-          </Button>
+          </Button>}
+
           <div className="flex items-center justify-center gap-1 ml-2">
             <span className="w-1 h-1 bg-white/80 rounded-full"></span>
             <span className="w-1 h-1 bg-white/80 rounded-full"></span>

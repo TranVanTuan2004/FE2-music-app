@@ -12,4 +12,10 @@ const getArtistInfo = async (id: number) => {
 }
 
 
+
+
+
+
+
+
 export { getArtistSuggested, getArtistInfo };

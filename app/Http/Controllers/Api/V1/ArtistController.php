@@ -34,4 +34,6 @@ class ArtistController extends Controller
 
         return response()->json($artist);
     }
+
+
 }

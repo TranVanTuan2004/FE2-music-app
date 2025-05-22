@@ -63,7 +63,8 @@ Route::group([
 
 ], function ($router) {
     // Favorite artist
-    Route::post('artists/favorite', [ArtistFavoriteController::class, 'toggleFavorite']);
+    Route::post('favorite/{artistId}/artist', [UserController::class, 'toggleFavoriteArtist']);
+    Route::get('favorite/{artistId}/artist', [UserController::class, 'checkFavorite']);
 });
 
 Route::group([
