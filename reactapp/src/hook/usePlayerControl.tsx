@@ -24,7 +24,6 @@ export const usePlayerControl = () => {
             isPlaying ? dispatch(pause()) : dispatch(play());
             return;
         }
-
         try {
             dispatch(loading(true));
             dispatch(setOpenModel());

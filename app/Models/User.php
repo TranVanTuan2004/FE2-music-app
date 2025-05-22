@@ -96,12 +96,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function favoriteArtists()
     {
-        return $this->belongsToMany(User::class, 'artist_user', 'user_id', 'artist_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'artist_user', 'user_id', 'artist_id')->withTimestamps()->withPivot('is_follow');
     }
 
     public function favoredByUsers()
     {
-        return $this->belongsToMany(User::class, 'artist_user', 'artist_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'artist_user', 'artist_id', 'user_id')->withTimestamps()->withPivot('is_follow');
     }
 
     /**

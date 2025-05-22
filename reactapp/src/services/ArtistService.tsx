@@ -6,5 +6,16 @@ const getArtistSuggested = async () => {
     return response.data;
 }
 
+const getArtistInfo = async (id: number) => {
+    const response = await axiosInstance.get(`artists/${id}`)
+    return response.data;
+}
 
-export { getArtistSuggested };
+
+
+
+
+
+
+
+export { getArtistSuggested, getArtistInfo };

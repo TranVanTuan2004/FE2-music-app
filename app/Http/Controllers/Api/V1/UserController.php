@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use App\Services\User\UserService;
+use Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -124,5 +125,49 @@ class UserController extends Controller
             ], 500);
         }
 
+    }
+
+    public function toggleFavoriteArtist($artistId)
+    {
+        $user = Auth::user();
+        $artist = User::findOrFail($artistId);
+
+        if ($user->id === $artist->id) {
+            return response()->json(['message' => 'Không thể tự yêu thích chính mình'], 400);
+        }
+
+        $relation = $user->favoriteArtists()->where('artist_id', $artistId)->first();
+
+        if ($relation) {
+            $currentFollow = $relation->pivot->is_follow;
+
+            // Đảo trạng thái is_follow
+            $user->favoriteArtists()->updateExistingPivot($artistId, ['is_follow' => !$currentFollow]);
+
+            return response()->json([
+                'message' => $currentFollow ? 'Đã bỏ yêu thích' : 'Đã yêu thích nghệ sĩ',
+                'isFollow' => !$currentFollow,
+            ]);
+        } else {
+            // Chưa có quan hệ thì tạo mới
+            $user->favoriteArtists()->attach($artistId, ['is_follow' => true]);
+
+            return response()->json([
+                'message' => 'Đã yêu thích nghệ sĩ',
+                'isFollow' => true,
+            ]);
+        }
+    }
+
+
+    public function checkFavorite($artistId)
+    {
+        $user = Auth::user();
+        $isFollow = $user->favoriteArtists()
+            ->where('artist_id', $artistId)
+            ->wherePivot('is_follow', true)
+            ->exists();
+
+        return response()->json(['isFollow' => $isFollow]);
     }
 }
