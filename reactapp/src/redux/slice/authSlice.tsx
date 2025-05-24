@@ -22,11 +22,13 @@ export const authSlice = createSlice({
         setAuthLogin: (state, action: PayloadAction<IUser | null>) => {
             state.isAuthenticated = true;
             state.user = action.payload
+            localStorage.setItem('user', JSON.stringify(state.user));
         },
 
         setAuthLogout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
+            localStorage.setItem('user', JSON.stringify(state.user));
         }
     }
 

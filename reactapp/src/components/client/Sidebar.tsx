@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, Music, Plus, Search, X } from "lucide-react";
-import { getAllArtistFavorite, toggleFollowArtist } from "../../services/UserService";
+import { getAllArtistFavorite, getFavoriteListSong, toggleFollowArtist } from "../../services/UserService";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "../../../config";
 
@@ -9,9 +9,10 @@ const Sidebar = () => {
   const queryClient = useQueryClient();
 
   const { data } = useQuery({ queryKey: ['favorites'], queryFn: () => getAllArtistFavorite() })
+  const { data: songsFavorite } = useQuery({ queryKey: ['favoriteSong'], queryFn: () => getFavoriteListSong() })
   const toggleFollow = async (e: any, id: number) => {
     e.stopPropagation();
-    const rs = await toggleFollowArtist(Number(id));
+    await toggleFollowArtist(Number(id));
     queryClient.invalidateQueries({ queryKey: ['favorites'] });
   }
   return (
@@ -25,7 +26,7 @@ const Sidebar = () => {
             </div>
             <div>
               <p className="text-[15px] font-medium">Bài hát đã thích</p>
-              <p className="text-[12px] text-gray-400">Danh sách phát · {data?.length} bài hát</p>
+              <p className="text-[12px] text-gray-400">Danh sách phát · {songsFavorite?.favorites?.length} bài hát</p>
             </div>
           </Link>
 
