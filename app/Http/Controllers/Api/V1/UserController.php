@@ -241,5 +241,22 @@ class UserController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        try {
+            $keyword = $request->query('keyword');
+            $data = Song::with('artists')->where('title', 'LIKE', "%{$keyword}%")
+                ->orWhereHas('artists', function ($q) use ($keyword) {
+                    $q->where('name', 'LIKE', "%{$keyword}%");
+                })->get();
+            return response()->json(['data' => $data]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Something went wrong',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 }

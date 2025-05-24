@@ -28,6 +28,7 @@ import RoleProtectedRoute from './middleware/RoleProtectedRoute.tsx'
 import Profile from './pages/client/profile/Profile.tsx'
 import ArtistDetail from './pages/client/artist/ArtistDetail.tsx'
 import Register from './pages/auth/Register.tsx'
+import Search from './pages/client/search/search.tsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: '/artist/:id',
         element: <ArtistDetail />
+      },
+      {
+        path: '/search',
+        element: <Search />
       },
     ]
   },
