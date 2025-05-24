@@ -12,14 +12,15 @@ import { usePlayerControl } from "../../../hook/usePlayerControl";
 import 'react-loading-skeleton/dist/skeleton.css'
 import { getStatusFavoiteSong, toggleFavoriteSong } from "../../../services/UserService";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useQueryClient } from "@tanstack/react-query";
 const Detail = () => {
     const { id } = useParams();
     const [song, setSong] = useState<any | Track | null>(null);
     const [songsArt, setSongsArt] = useState<any | null>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [favorite, setFavorite] = useState(false);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+
+    const queryClient = useQueryClient();
 
     // xử lý khi onClick
     const { songRedux, isPlaying, handlePlayMusic } = usePlayerControl();  // Sử dụng hook xử lý play/pause
@@ -72,6 +73,8 @@ const Detail = () => {
         try {
             const data = await toggleFavoriteSong(songId);
             setFavorite(data?.isFavorite);
+            queryClient.invalidateQueries({ queryKey: ['favoriteSong'] });
+
         } catch (error) {
             toast.error('Failed to add favorute:' + error);
         }
