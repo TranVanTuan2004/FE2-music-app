@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSongById, getSongsByArtist } from "../../../services/SongService";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../../../config";
 import { pause, play, Track } from "../../../redux/slice/playerSlice";
-import { MoreHorizontal, Pause, Plus } from "lucide-react";
+import { CheckIcon, MoreHorizontal, Pause, Plus } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 import { usePlayerControl } from "../../../hook/usePlayerControl";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import axiosInstance from "../../../configs/axios";
+import { getStatusFavoiteSong, toggleFavoriteSong } from "../../../services/UserService";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useQueryClient } from "@tanstack/react-query";
 const Detail = () => {
     const { id } = useParams();
     const [song, setSong] = useState<any | Track | null>(null);
     const [songsArt, setSongsArt] = useState<any | null>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [favorite, setFavorite] = useState(false);
 
-    const dispatch = useDispatch();
-
+    const queryClient = useQueryClient();
 
     // xử lý khi onClick
     const { songRedux, isPlaying, handlePlayMusic } = usePlayerControl();  // Sử dụng hook xử lý play/pause
@@ -49,14 +49,36 @@ const Detail = () => {
                 const artistId = song?.artists[0].id;
                 const data = await getSongsByArtist(artistId, 10);
                 setSongsArt(data);
-                console.log(data);
             } catch (error) {
                 toast.error('Failed to fetch song:' + error);
             }
         }
-        fetchSongsByArtist()
+        fetchSongsByArtist();
+
     }, [song])
 
+    useEffect(() => {
+        const fetchStatusFavoiteSong = async () => {
+            try {
+                const data = await getStatusFavoiteSong(Number(id));
+                setFavorite(data?.isFavorite)
+            } catch (error) {
+                toast.error('Failed to fetch song:' + error);
+            }
+        }
+        fetchStatusFavoiteSong();
+    }, [id])
+
+    const handleToggleFavoriteSong = async (songId: number) => {
+        try {
+            const data = await toggleFavoriteSong(songId);
+            setFavorite(data?.isFavorite);
+            queryClient.invalidateQueries({ queryKey: ['favoriteSong'] });
+
+        } catch (error) {
+            toast.error('Failed to add favorute:' + error);
+        }
+    }
     return (
         <>
             {isLoading ? <SkeletonTheme baseColor="#202020" highlightColor="#444444">
@@ -81,24 +103,13 @@ const Detail = () => {
                             {song?.artist} • {song?.title} • {song?.release_date.toString()}
                         </p>
                     </div>
-                    {/* <div className="flex items-center gap-4 mt-10 max-w-5xl mx-auto">
-                    <img
-                        src={`${BASE_URL}/storage/${song?.image}`}
-                        alt="Artist"
-                        className="w-16 h-16 rounded-full"
-                    />
-                    <div>
-                        <p className="text-sm text-gray-400">Nghệ sĩ</p>
-                        <p className="text-lg font-bold">{song?.artist}</p>
-                    </div>  
-                </div> */}
                 </div>
-                <div className="flex gap-4 mt-6">
+                <div className="flex items-center gap-4 mt-6">
                     <button onClick={() => handlePlayMusic(Number(song?.id))} className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 hover:scale-110 transition-all duration-100">
                         {songRedux?.id === song?.id && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
                     </button>
-                    <button className="flex items-center justify-center w-10 h-10 rounded-full border border-gray-400 hover:border-white hover:scale-110 transition-all duration-100">
-                        <Plus className="text-gray-400 hover:text-white w-5 h-5" />
+                    <button onClick={() => handleToggleFavoriteSong(song?.id)} className={`flex items-center justify-center w-7 h-7 rounded-full border border-gray-400 hover:border-white hover:scale-110 transition-all duration-100 ${favorite ? 'bg-green-500 text-black' : 'bg-none'}`}>
+                        {favorite ? <CheckIcon className="w-4 h-4 rounded-full" /> : <Plus className="text-gray-400 hover:text-white w-5 h-5" />}
                     </button>
                     <button className="flex items-center justify-center w-10 h-10 hover:scale-110 transition-all duration-100">
                         <MoreHorizontal className="text-gray-400 hover:text-white w-5 h-5" />

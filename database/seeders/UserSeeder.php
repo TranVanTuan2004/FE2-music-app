@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Số nhà 23/17 Hẻm 17 Đường Dương Văn Cam, Linh Tây, Thủ Đức',
             'phone' => '0978476115',
+            'image' => 'user_image/noavtar.jpg',
             'role' => 'admin'
         ]);
         User::factory()->create([
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Số nhà 23/17 Hẻm 17 Đường Dương Văn Cam, Linh Tây, Thủ Đức',
             'phone' => '0385623512',
+            'image' => 'user_image/noavtar.jpg',
             'role' => 'user'
         ]);
 
@@ -38,7 +40,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Quận 6 HCM city',
             'phone' => '09123123123',
-            'role' => 'user'
+            'image' => 'user_image/vucattuong.jpg',
+            'role' => 'artist'
         ]);
 
         User::factory()->create([
@@ -47,9 +50,92 @@ class UserSeeder extends Seeder
             'password' => Hash::make('123456'),
             'address' => 'Quận 6 HCM city',
             'phone' => '12312312312',
-            'role' => 'user'
+            'image' => 'user_image/noophuocthinh.jpg',
+            'role' => 'artist'
         ]);
 
-        User::factory(100)->create();
+        User::factory()->create([
+            'name' => 'Hòa minzy',
+            'email' => 'hoaminzy@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/hoaminmzy.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Hải nguyễn',
+            'email' => 'abc@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Hoa Trần',
+            'email' => '1234@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Nam Trần',
+            'email' => 'namtran@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Ngọc Ánh',
+            'email' => 'ngocanh@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Quyền Ngô',
+            'email' => 'quyenngo@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Nhi Phạm',
+            'email' => 'nhpham@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Bống',
+            'email' => 'bong@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+        User::factory()->create([
+            'name' => 'Shin',
+            'email' => 'shin@gmail.com',
+            'password' => Hash::make('123456'),
+            'address' => 'Quận 6 HCM city',
+            'phone' => '12312312312',
+            'image' => 'user_image/noavtar.jpg',
+            'role' => 'artist'
+        ]);
+
+        User::factory(20)->create();
     }
 }

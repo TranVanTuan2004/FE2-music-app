@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ArtistController;
+use App\Http\Controllers\Api\V1\ArtistFavoriteController;
 use App\Http\Controllers\Api\V1\AudioController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\FavoriteController;
@@ -29,6 +31,8 @@ Route::group([
 });
 
 
+
+
 Route::group([
     'prefix' => 'v1'
 ], function ($router) {
@@ -50,10 +54,29 @@ Route::group([
     'middleware' => 'jwt',
 
 ], function ($router) {
-    // Favorite
-    Route::get('favorite/getFavorites', [FavoriteController::class, 'getFavorites']);
-    Route::post('favorite/toggle', [FavoriteController::class, 'toggleFavorite']);
+    // Favorite artist
+    Route::get('favorite/artists', [UserController::class, 'getAllArtistFavorite']);
+    Route::post('favorite/{artistId}/artist', [UserController::class, 'toggleFavoriteArtist']);
+    Route::get('favorite/{artistId}/artist', [UserController::class, 'checkFavorite']);
+
+
+
+    // Favorite songs
+
+    Route::get('favorite/songs', [UserController::class, 'getAllSongFavorite']);
+    Route::get('favorite/{songId}/song', [UserController::class, 'checkFavoriteSong']);
+    Route::post('favorite/{songId}/song', [UserController::class, 'toggleFavoriteSong']);
 });
+
+Route::group([
+    'prefix' => 'v1',
+], function ($router) {
+    // Favorite artist
+    Route::get('artists/suggested', [ArtistController::class, 'suggested']);
+    Route::get('artists/{id}', [ArtistController::class, 'getArtistInfo']);
+});
+
+
 
 
 // admin

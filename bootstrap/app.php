@@ -22,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // khai báo như này để sử dụng ở route cụ thể
         $middleware->alias([
             'jwt' => jwt::class,
-            'role' => RoleMiddleware::class
+            'role' => RoleMiddleware::class,
+            'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         ]);
 
     })

@@ -59,7 +59,7 @@ class Song extends Model
 
     public function favoredByUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'favorites')
+        return $this->belongsToMany(User::class, 'favorites')->withPivot('isFavorite')
             ->withTimestamps();
     }
 }

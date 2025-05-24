@@ -161,7 +161,7 @@ const Player = () => {
   }, [songRedux, isPlaying])
 
   return (
-    <div className='fixed h-[12%] bottom-0 left-0 right-0'>
+    <div className='fixed h-[10%] bottom-0 left-0 right-0'>
       <div className="flex items-center justify-between h-full w-full bg-black text-white px-4 py-2 z-10">
         {/* Left: songRedux Info */}
         <div className="flex items-center gap-3 w-[30%]">

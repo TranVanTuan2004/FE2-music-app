@@ -68,6 +68,10 @@ const playerSlice = createSlice({
             state.playlist = action.payload;
             setTrackLocal(state);
         },
+        setPlayList(state, action) {
+            state.playlist = action.payload
+            setTrackLocal(state);
+        },
 
         repeatTrack(state) {
             state.isRepeat = !state.isRepeat
@@ -75,6 +79,7 @@ const playerSlice = createSlice({
         },
 
         playTrackAt(state, action) {
+            console.log(action.payload)
             const index = action.payload.index;
             if (index >= 0 && index < state.playlist.length) {
                 if (state.currentIndex !== index) {
@@ -84,7 +89,6 @@ const playerSlice = createSlice({
                 }
                 state.currentIndex = index;
                 state.currentTrack = state.playlist[index];
-
                 setTrackLocal(state);
             }
         },
@@ -109,6 +113,6 @@ const playerSlice = createSlice({
 
     },
 });
-export const { loading, play, pause, setTrack, playTrackAt, nextTrack, prevTrack, repeatTrack } = playerSlice.actions
+export const { loading, play, pause, setTrack, playTrackAt, nextTrack, prevTrack, repeatTrack, setPlayList } = playerSlice.actions
 
 export default playerSlice.reducer;
