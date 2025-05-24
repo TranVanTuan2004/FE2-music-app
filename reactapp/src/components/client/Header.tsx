@@ -13,6 +13,7 @@ import { RootState } from "../../redux/store";
 export default function Header() {
     const userStr = localStorage.getItem("user");
     const user = userStr ? JSON.parse(userStr) : null;
+
     return (
         <header className="w-full h-[10%] bg-black text-white px-10 py-2 grid grid-cols-3">
             <Link to={'/'} className="flex items-center gap-6">
@@ -59,7 +60,7 @@ export default function Header() {
                 <button className="hover:text-white">
                     <Bell size={20} />
                 </button>
-                <UserMenu user={user} />
+                <UserMenu />
             </div>
         </header>
     );

@@ -46,8 +46,7 @@ const router = createBrowserRouter([
     </NoAuthMiddleware>
   },
   {
-    path: "/auth/logout",
-    element: <Login />
+    path: "/auth/logout"
   },
   //Client
   {

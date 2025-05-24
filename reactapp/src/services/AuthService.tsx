@@ -18,6 +18,15 @@ const login = async (payload: loginPayload): Promise<IUser | null> => {
     }
 }
 
+const logout = async () => {
+    try {
+        const response = await axiosInstance.post('auth/logout');
+        return response.data;
+    } catch (error) {
+        return null;
+    }
+}
+
 const fetchUser = async (): Promise<IUser | null> => {
     try {
         const response = await axiosInstance.get('auth/me');
@@ -30,4 +39,4 @@ const fetchUser = async (): Promise<IUser | null> => {
 
 
 
-export { login, fetchUser };
+export { login, fetchUser, logout };
