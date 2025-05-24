@@ -29,14 +29,27 @@ const toggleFollowArtist = async (artistId: number) => {
 }
 
 const fetchFollowStatus = async (artistId: number) => {
-    const response = await axiosInstance.get(`favorite/${artistId}/artist`)
-    return response.data;
+    try {
+        const response = await axiosInstance.get(`favorite/${artistId}/artist`)
+        return response.data;
+    } catch (error: any) {
+        if (error.response?.status === 401) {
+            return;
+        }
+    }
 }
 
 const getAllArtistFavorite = async () => {
-    const response = await axiosInstance.get(`favorite/artists`)
-    return response.data;
+    try {
+        const response = await axiosInstance.get(`favorite/artists`)
+        return response.data;
+    } catch (error: any) {
+        if (error.response?.status === 401) {
+            return;
+        }
+    }
 }
+
 
 
 
@@ -44,8 +57,14 @@ const getAllArtistFavorite = async () => {
 
 // favorite song
 const getFavoriteListSong = async () => {
-    const response = await axiosInstance.get(`favorite/songs`)
-    return response.data;
+    try {
+        const response = await axiosInstance.get(`favorite/songs`)
+        return response.data;
+    } catch (error: any) {
+        if (error.response?.status === 401) {
+            return;
+        }
+    }
 }
 
 

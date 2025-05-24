@@ -59,12 +59,9 @@ const Detail = () => {
 
     useEffect(() => {
         const fetchStatusFavoiteSong = async () => {
-            try {
-                const data = await getStatusFavoiteSong(Number(id));
-                setFavorite(data?.isFavorite)
-            } catch (error) {
-                toast.error('Failed to fetch song:' + error);
-            }
+            const data = await getStatusFavoiteSong(Number(id));
+            setFavorite(data?.isFavorite)
+
         }
         fetchStatusFavoiteSong();
     }, [id])

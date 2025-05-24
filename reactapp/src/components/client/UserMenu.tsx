@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Avatar,
     Menu,
@@ -15,16 +15,23 @@ import Settings from "@mui/icons-material/Settings";
 import HelpOutline from "@mui/icons-material/HelpOutline";
 import FileDownload from "@mui/icons-material/FileDownload";
 import PersonIcon from "@mui/icons-material/Person";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { IUser } from "../../interfaces/IUser";
+import { logout } from "../../services/AuthService";
+import { toast } from "react-toastify";
+import { localUser } from "../../utils/localUser";
+import { setAuthLogout } from "../../redux/slice/authSlice";
 
-export default function UserMenu({ user }: any) {
+export default function UserMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState("");
+    const user = useSelector((state: RootState) => state.auth.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
@@ -40,17 +47,24 @@ export default function UserMenu({ user }: any) {
         handleClose();
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         // Xử lý đăng xuất ở đây
-        console.log("Đăng xuất");
-        handleClose();
+        const data = await logout();
+        if (data) {
+            dispatch(setAuthLogout());
+            toast.success('Đăng xuất thành công');
+            navigate('/');
+            handleClose();
+        } else {
+            toast.error('Token đã hết hạn');
+        }
     };
 
     return (
         <>
             {/* Avatar Button */}
             <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                <Avatar sx={{ width: 32, height: 32 }}>{user?.name.slice(0, 1)}</Avatar>
+                <Avatar sx={{ width: 32, height: 32 }}>{user?.name?.slice(0, 1)}</Avatar>
             </IconButton>
 
             {/* Dropdown Menu */}
@@ -113,12 +127,18 @@ export default function UserMenu({ user }: any) {
                     Cài đặt
                 </MenuItem>
                 <Divider sx={{ backgroundColor: "#444" }} />
-                <MenuItem onClick={handleLogout}>
+                {user ? <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" sx={{ color: "white" }} />
                     </ListItemIcon>
-                    <Link to={'logout'}>Đăng xuất</Link>
-                </MenuItem>
+                    <button>Đăng xuất</button>
+                </MenuItem> : <MenuItem >
+                    <ListItemIcon>
+                        <Logout fontSize="small" sx={{ color: "white" }} />
+                    </ListItemIcon>
+                    <Link to={'/auth/login'}>Đăng nhập</Link>
+                </MenuItem>}
+
             </Menu>
 
             {/* Snackbar */}

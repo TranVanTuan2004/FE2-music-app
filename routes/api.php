@@ -27,7 +27,6 @@ Route::group([
 ], function ($router) {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
-
 });
 
 

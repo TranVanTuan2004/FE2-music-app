@@ -44,10 +44,32 @@ class AuthController extends Controller
         return $this->respondWithToken($token, $refresh_token, $user)->withCookie($cookie)->withCookie($refreshCookie);
     }
 
+    public function logout()
+    {
+        try {
+            // Vô hiệu hóa token hiện tại
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            // Trả về response + cookie rỗng để xóa
+            return response()->json(['message' => 'Đăng xuất thành công'])->cookie(
+                'token',
+                '',
+                -1,
+                '/',
+                null,
+                true,
+                true,
+                false,
+                'Strict'
+            );
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Không thể đăng xuất'], 500);
+        }
+    }
+
     public function refresh()
     {
         return 1;
-        // return $this->respondWithToken(auth()->refresh());
     }
 
     protected function respondWithToken($token, $refresh_token, $user)
