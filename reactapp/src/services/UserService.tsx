@@ -85,4 +85,13 @@ const toggleFavoriteSong = async (songId: number) => {
         }
     }
 };
-export { pagination, updateStatus, toggleFollowArtist, fetchFollowStatus, getFavoriteListSong, getStatusFavoiteSong, toggleFavoriteSong, getAllArtistFavorite };
+
+const search = async (keyword: string) => {
+    const response = await axiosInstance.get('search', {
+        params: {
+            keyword: keyword
+        }
+    })
+    return response.data;
+}
+export { pagination, updateStatus, toggleFollowArtist, fetchFollowStatus, getFavoriteListSong, getStatusFavoiteSong, toggleFavoriteSong, getAllArtistFavorite, search };

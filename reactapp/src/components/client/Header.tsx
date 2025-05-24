@@ -5,14 +5,25 @@ import {
     Download,
     Search,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { useState } from "react";
 
 export default function Header() {
-    const userStr = localStorage.getItem("user");
-    const user = userStr ? JSON.parse(userStr) : null;
+    const [search, setSearch] = useState<string>('');
+    const navigate = useNavigate();
+
+    const handleOnChange = (e: InputEvent | any) => {
+        const keyword = e.target.value;
+        setSearch(keyword);
+        const params = createSearchParams({ keyword: keyword });
+        navigate({ pathname: '/search', search: params.toString() });
+        if (keyword === '') {
+            navigate('/search');
+        }
+    }
 
     return (
         <header className="w-full h-[10%] bg-black text-white px-10 py-2 grid grid-cols-3">
@@ -32,6 +43,7 @@ export default function Header() {
                     <Search size={18} className="text-gray-400" />
                     <input
                         type="text"
+                        onChange={(e) => handleOnChange(e)} name="search" value={search}
                         placeholder="Bạn muốn phát nội dung gì?"
                         className="bg-transparent outline-none text-sm text-white px-2 w-full placeholder:text-gray-400"
                     />
