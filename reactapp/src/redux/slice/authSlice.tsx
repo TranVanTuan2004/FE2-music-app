@@ -12,7 +12,7 @@ export interface AuthState {
 // Define the initial state using that type
 const initialState: AuthState = {
     isAuthenticated: false,
-    user: null
+    user: localUser.get()
 }
 
 export const authSlice = createSlice({
@@ -22,13 +22,13 @@ export const authSlice = createSlice({
         setAuthLogin: (state, action: PayloadAction<IUser | null>) => {
             state.isAuthenticated = true;
             state.user = action.payload
-            localStorage.setItem('user', JSON.stringify(state.user));
+            localUser.set(action.payload);
         },
 
         setAuthLogout: (state) => {
             state.isAuthenticated = false;
             state.user = null;
-            localStorage.setItem('user', JSON.stringify(state.user));
+            localUser.remove();
         }
     }
 
