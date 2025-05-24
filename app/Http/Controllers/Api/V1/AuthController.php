@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
+use Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -49,7 +53,6 @@ class AuthController extends Controller
         try {
             // Vô hiệu hóa token hiện tại
             JWTAuth::invalidate(JWTAuth::getToken());
-
             // Trả về response + cookie rỗng để xóa
             return response()->json(['message' => 'Đăng xuất thành công'])->cookie(
                 'token',
@@ -64,6 +67,32 @@ class AuthController extends Controller
             );
         } catch (\Exception $e) {
             return response()->json(['error' => 'Không thể đăng xuất'], 500);
+        }
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            // ✅ 4. Trả token trong cookie (HttpOnly) nếu muốn
+            return response()->json(['message' => 'Đăng ký thành công']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Không thể đăng ký'], 500);
         }
     }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setAuthLogin } from '../../redux/slice/authSlice';
@@ -83,7 +83,7 @@ const Login = () => {
                     </div>
 
                     <div className="text-sm text-center">
-                        Bạn chưa có tài khoản? <a href="/signup" className="text-blue-500 hover:underline">Đăng ký Spotify</a>
+                        <span className='text-white'>Bạn chưa có tài khoản?</span> <Link to={'/auth/register'} className="text-blue-500 hover:underline">Đăng ký Spotify</Link>
                     </div>
                 </form>
             </div>
