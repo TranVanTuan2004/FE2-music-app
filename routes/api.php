@@ -45,6 +45,7 @@ Route::group([
 
 
 Route::post('/v1/auth/login', [AuthController::class, 'login']);
+Route::post('/v1/auth/register', [AuthController::class, 'register']);
 Route::post('/v1/auth/refresh', [AuthController::class, 'refresh'])->middleware('jwt');
 
 

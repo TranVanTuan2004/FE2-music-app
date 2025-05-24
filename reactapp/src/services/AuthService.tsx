@@ -1,6 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axiosInstance from "../configs/axios";
 import { IUser } from "../interfaces/IUser";
+import { Inputs } from "../pages/auth/Register";
+import { toast } from "react-toastify";
 
 type loginPayload = {
     email: string,
@@ -27,6 +29,23 @@ const logout = async () => {
     }
 }
 
+const registerUser = async (payload: Inputs) => {
+    try {
+        const response = await axiosInstance.post('auth/register', {
+            'email': payload.email,
+            'name': payload.name,
+            'password': payload.password,
+            'password_confirmation': payload.password_confirmation
+        });
+        return response.data;
+    } catch (error: any) {
+        if (error.response?.status == 422) {
+            toast.error('Email đã sử dụng');
+            return;
+        }
+    }
+}
+
 const fetchUser = async (): Promise<IUser | null> => {
     try {
         const response = await axiosInstance.get('auth/me');
@@ -39,4 +58,4 @@ const fetchUser = async (): Promise<IUser | null> => {
 
 
 
-export { login, fetchUser, logout };
+export { login, fetchUser, logout, registerUser };

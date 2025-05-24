@@ -27,6 +27,7 @@ import Favorite from './pages/client/favorite/Favorite.tsx'
 import RoleProtectedRoute from './middleware/RoleProtectedRoute.tsx'
 import Profile from './pages/client/profile/Profile.tsx'
 import ArtistDetail from './pages/client/artist/ArtistDetail.tsx'
+import Register from './pages/auth/Register.tsx'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,8 +47,12 @@ const router = createBrowserRouter([
     </NoAuthMiddleware>
   },
   {
-    path: "/auth/logout"
+    path: "/auth/register",
+    element: <NoAuthMiddleware>
+      <Register />
+    </NoAuthMiddleware>
   },
+
   //Client
   {
     path: '/',
