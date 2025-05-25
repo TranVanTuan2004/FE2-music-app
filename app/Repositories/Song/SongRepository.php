@@ -16,6 +16,7 @@ class SongRepository extends BaseRepository
     {
         // Lý do dùng query() ở đây: Bạn có thể build nhiều điều kiện khác nhau cho Song mà không thay đổi cách truy vấn mặc định của model. Dễ dàng mở rộng nếu cần.
         $query = $this->model->query()->with(['artists:id,name']);
+        $seed = crc32(date('Y-m-d'));
 
         if (!empty($params['genre'])) {
             $query->where('genre', $params['genre']);
@@ -34,7 +35,7 @@ class SongRepository extends BaseRepository
         }
 
         $limit = $params['limit'] ?? 20;
-        return $query->limit($limit)->get();
+        return $query->limit($limit)->orderByRaw("RAND($seed)")->get();
     }
 
 

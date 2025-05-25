@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import { Route, useNavigate } from 'react-router-dom';
 import { usePlayerControl } from '../../hook/usePlayerControl';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { saveRecentItem } from '../../utils/localRecent';
 
 export type SongListProps = {
   genre?: string;
@@ -26,8 +27,9 @@ export type SongListProps = {
   recommend?: string;
   limit: number;
 };
-const SongList = () => {
-  const { data, isLoading, error } = useSong({ limit: 20 });
+const SongList = ({ params }: any) => {
+  console.log(params)
+  const { data, isLoading, error } = useSong(params);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
@@ -44,6 +46,11 @@ const SongList = () => {
   const handleSlideChange = (swiper: any) => {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
+  }
+
+  const handleShowSongDetail = (song: any) => {
+    navigate(`/track/${song.id}`)
+    saveRecentItem(song);
   }
 
   if (isLoading) {
@@ -76,7 +83,7 @@ const SongList = () => {
         speed={600}
         slidesPerView='auto'>
         {data?.map((song: any) => {
-          return <SwiperSlide onClick={() => navigate(`/track/${song.id}`)} key={song.id} className="group/song relative h-[auto] !w-[180px] shrink-0 hover:bg-neutral-800 rounded-lg overflow-hidden p-3 cursor-pointer">
+          return <SwiperSlide onClick={() => handleShowSongDetail(song)} key={song.id} className="group/song relative h-[auto] !w-[180px] shrink-0 hover:bg-neutral-800 rounded-lg overflow-hidden p-3 cursor-pointer">
             <SongItem song={song} songRedux={songRedux} isPlaying={isPlaying} handlePlayMusicHome={handlePlayMusicHome} />
           </SwiperSlide>
         })}

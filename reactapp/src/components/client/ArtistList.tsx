@@ -21,6 +21,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { getArtistSuggested } from '../../services/ArtistService';
 import ArtistItem from './ArtistItem';
+import { saveRecentItem } from '../../utils/localRecent';
 
 
 const ArtistList = () => {
@@ -42,6 +43,11 @@ const ArtistList = () => {
     const handleSlideChange = (swiper: any) => {
         setIsBeginning(swiper.isBeginning);
         setIsEnd(swiper.isEnd);
+    }
+
+    const handleShowArtistDetail = (artist: any) => {
+        navigate(`/artist/${artist.id}`)
+        saveRecentItem(artist);
     }
 
     if (isLoading) {
@@ -74,7 +80,7 @@ const ArtistList = () => {
                 speed={600}
                 slidesPerView='auto'>
                 {data?.map((artist: any, index: number) => {
-                    return <SwiperSlide onClick={() => navigate(`/artist/${artist.id}`)} key={index} className="group/song relative h-[auto] !w-[180px] shrink-0 hover:bg-neutral-800 rounded-lg overflow-hidden p-3 cursor-pointer">
+                    return <SwiperSlide onClick={() => handleShowArtistDetail(artist)} key={index} className="group/song relative h-[auto] !w-[180px] shrink-0 hover:bg-neutral-800 rounded-lg overflow-hidden p-3 cursor-pointer">
                         <ArtistItem name={artist.name} imageUrl={artist.image} />
                     </SwiperSlide>
                 })}
