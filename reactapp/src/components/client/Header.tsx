@@ -35,10 +35,10 @@ export default function Header() {
                 />
             </Link>
             <div className="flex gap-3 items-center justify-center">
-                <button className="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700">
+                <Link to={'/'} className="p-2 bg-zinc-800 rounded-full hover:bg-zinc-700">
                     <Home size={20} />
-                </button>
-                <div className="flex items-center bg-zinc-800 rounded-full px-4 py-1 w-[400px]">
+                </Link>
+                <div className="flex items-center bg-zinc-800 rounded-full px-4 py-[10px] w-[400px]">
 
                     <Search size={18} className="text-gray-400" />
                     <input
@@ -47,18 +47,6 @@ export default function Header() {
                         placeholder="Bạn muốn phát nội dung gì?"
                         className="bg-transparent outline-none text-sm text-white px-2 w-full placeholder:text-gray-400"
                     />
-                    <button className="p-1">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            height="20"
-                            width="20"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            className="text-gray-400"
-                        >
-                            <path d="M19.2929 4.70711L5.70711 18.2929L4.29289 16.8787L17.8787 3.29289L19.2929 4.70711Z" />
-                        </svg>
-                    </button>
                 </div>
             </div>
 

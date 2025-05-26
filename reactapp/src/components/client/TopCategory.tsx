@@ -36,7 +36,7 @@ const TopCategory = () => {
             {playLists.map((item: any, index) => (
                 <div onClick={() => handleNavigate(item)} key={index} className="bg-neutral-800 rounded-[6px] cursor-pointer h-16 overflow-hidden flex items-center gap-4 hover:bg-neutral-700 transition">
                     <img src={`${BASE_URL}/storage/${item?.image}`} className="w-16 h-full rounded" />
-                    <span className="text-white text-sm font-semibold">{item?.name ? item?.name : item?.title}</span>
+                    <span className="text-white text-sm font-semibold">{item?.name ? item?.name.length > 15 ? item?.name.slice(0, 15) + '...' : item?.name : item?.title.length > 15 ? item?.title.slice(0, 15) + ' ...' : item?.title}</span>
                 </div>
             ))}
         </div>

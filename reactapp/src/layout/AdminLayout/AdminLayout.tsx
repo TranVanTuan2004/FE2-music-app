@@ -4,7 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import { AppProvider, type Navigation } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
-import { UserCircle, UserSquare2Icon } from 'lucide-react';
+import { ConeIcon, SquareArrowDownRight, TrainTrackIcon, UserCircle, UserSquare2Icon } from 'lucide-react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Title from '../../components/admin/Title/Title';
 import Header from '../../components/admin/Header/Header';
@@ -37,17 +37,25 @@ const NAVIGATION: Navigation = [
         icon: <UserSquare2Icon />,
         children: [
             {
-                segment: 'index1',
-                title: 'QL Nhóm Thành Viên',
-                icon: <UserCircle />,
-            },
-            {
                 segment: 'index',
                 title: 'QL Thành Viên',
                 icon: <UserCircle />,
             },
         ],
     },
+    {
+        segment: 'admin/song',
+        title: 'QL Bài Hát',
+        icon: <ConeIcon />,
+        children: [
+            {
+                segment: 'index',
+                title: 'QL Bài hát',
+                icon: <ConeIcon />,
+            },
+        ],
+    },
+
     // {
     //     segment: 'reports',
     //     title: 'QL Sản phẩm',

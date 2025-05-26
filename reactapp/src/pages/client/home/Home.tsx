@@ -3,6 +3,7 @@ import SongList from '../../../components/client/SongList'
 import ArtistList from '../../../components/client/ArtistList'
 import Footer from '../../../components/client/Footer'
 import TopCategory from '../../../components/client/TopCategory'
+import SportifyList from '../../../components/client/SportifyList'
 const tabs = ['Tất cả', 'Nhạc', 'Podcasts'];
 
 const Home = () => {
@@ -32,6 +33,10 @@ const Home = () => {
             <div className="mb-4">
                 <h1 className="my-5 font-bold text-2xl">Nghệ sĩ phổ biến</h1>
                 <ArtistList />
+            </div>
+            <div className="my-12">
+                <h1 className="my-5 font-bold text-2xl">Khám phá Sportify</h1>
+                <SportifyList />
             </div>
         </div>
     )

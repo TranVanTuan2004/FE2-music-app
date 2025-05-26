@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Repositories\User\UserRepository;
 use App\Services\User\UserService;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller
 {
@@ -47,17 +49,41 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
-        $user = $request->only([
-            'name',
-            'phone',
-            'email',
-            'address',
-            'birthday',
-            'image',
-            'description',
-            'password',
-            'role'
+        // Xác thực dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'required|string|email|max:255|unique:users',
+            'address' => 'nullable|string|max:255',
+            'birthday' => 'nullable|date',
+            'image' => 'nullable|string',
+            'description' => 'nullable|string',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'nullable|string|in:user,admin',
         ]);
+
+        // Nếu có lỗi xác thực, trả về lỗi
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Tạo user
+        $user = User::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'birthday' => $request->birthday,
+            'image' => $request->image,
+            'description' => $request->description,
+            'password' => Hash::make($request->password), // mã hóa password
+            'role' => $request->role ?? 'user', // mặc định là user nếu không có
+        ]);
+
+        return response()->json([
+            'message' => 'User created successfully',
+            'user' => $user,
+        ], 201);
     }
 
     public function getUserById(Request $request)

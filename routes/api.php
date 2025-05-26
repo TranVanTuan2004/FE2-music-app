@@ -89,6 +89,7 @@ Route::group([
     // User
     Route::middleware('role:admin')->group(function () {
         Route::get('users', [UserController::class, 'index']);
+        Route::post('users', [UserController::class, 'createUser']);
         Route::put('users/{id}/status', [UserController::class, 'updateStatus']);
         Route::get('users/{id}', [UserController::class, 'getUserById']);
         Route::put('users/{id}', [UserController::class, 'updateUser']);

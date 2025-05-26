@@ -48,14 +48,14 @@ class SongRepository extends BaseRepository
     }
     public function getSongById($id)
     {
-        return $this->model->with('artists:id,name')->findOrFail($id);
+        return $this->model->with('artists:id,name,image')->findOrFail($id);
     }
 
     public function getSongsByArtist($artistId, $limit = null)
     {
         $query = $this->model->join('artist_songs', 'songs.id', '=', 'artist_songs.song_id')
             ->where('artist_songs.user_id', $artistId)
-            ->with('artists:id,name')
+            ->with('artists:id,name,image')
             ->select('songs.*');
 
         if ($limit) {
