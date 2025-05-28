@@ -59,7 +59,7 @@ const Favorite = () => {
             <div className="px-8 bg-gradient-to-b from-[#2e2553] to-40% to-[#121212]">
                 <div className=" pt-8">
                     <button onClick={handlePlayMain} className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 hover:bg-green-600 hover:scale-110 transition-all duration-100">
-                        {(data.favorites.some((item: any) => item.id === songRedux.id) ?? false) && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
+                        {(data?.favorites?.some((item: any) => item.id === songRedux.id) ?? false) && isPlaying ? <FontAwesomeIcon icon={faPause} className='text-black text-[18px]' /> : <FontAwesomeIcon icon={faPlay} className='text-black text-[18px]' />}
                     </button>
                 </div>
                 <div className="w-full">
@@ -74,7 +74,7 @@ const Favorite = () => {
 
                     {/* Songs List */}
                     <div>
-                        {data.favorites?.map((song: any, index: number) => (
+                        {data?.favorites?.map((song: any, index: number) => (
                             <div
                                 key={index}
                                 className={`flex items-center gap-4 text-sm py-2 hover:bg-neutral-800 transition px-5 rounded-[6px] ${songRedux.id === song.id ? 'text-green-500' : 'text-white'}
