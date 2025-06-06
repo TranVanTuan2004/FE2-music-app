@@ -50,14 +50,11 @@ export default function UserMenu() {
     const handleLogout = async () => {
         // Xử lý đăng xuất ở đây
         const data = await logout();
-        if (data) {
-            dispatch(setAuthLogout());
-            toast.success('Đăng xuất thành công');
-            navigate('/');
-            handleClose();
-        } else {
-            toast.error('Token đã hết hạn');
-        }
+        dispatch(setAuthLogout());
+        toast.success('Đăng xuất thành công');
+        navigate('/');
+        handleClose();
+
     };
 
     return (

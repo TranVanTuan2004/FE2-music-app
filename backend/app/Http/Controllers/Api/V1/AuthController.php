@@ -55,7 +55,7 @@ class AuthController extends Controller
             JWTAuth::invalidate(JWTAuth::getToken());
             // Trả về response + cookie rỗng để xóa
             return response()->json(['message' => 'Đăng xuất thành công'])->cookie(
-                'token',
+                'access_token',
                 '',
                 -1,
                 '/',
